@@ -1,0 +1,43 @@
+#Maven
+user-service/target/
+user-service/pom.xml.tag
+user-service/pom.xml.releaseBackup
+user-service/pom.xml.versionsBackup
+user-service/release.properties
+user-service/.flattened-pom.xml
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+# IntelliJ
+.idea
+*.ipr
+*.iml
+*.iws
+
+# NetBeans
+nb-configuration.xml
+
+# Visual Studio Code
+.vscode
+.factorypath
+
+# OSX
+.DS_Store
+
+# Vim
+*.swp
+*.swo
+
+# patch
+*.orig
+*.rej
+
+# Local environment
+.env
+
+# Plugin directory
+/.quarkus/cli/plugins/
