@@ -16,10 +16,13 @@ public class UserRepositoryTest {
 	@Inject
 	private UserRepository userRepository;
 
+	private User u1;
+	private User u2;
+
 	@BeforeEach
 	public void createUsers() {
-		User u1 = new User();
-		User u2 = new User();
+		u1 = new User();
+		u2 = new User();
 
 		u1.setGivenName("Filip");
 		u1.setEmail("filip@fi.cz");
@@ -38,7 +41,8 @@ public class UserRepositoryTest {
 	}
 	@AfterEach
 	public void deleteUsers() {
-		userRepository.deleteAll();
+		userRepository.delete(u1);
+		userRepository.delete(u2);
 	}
 
 	@Test
