@@ -19,8 +19,8 @@ import java.util.Collection;
  */
 @Path("/users") //TODO remove this after adding API GATEWAY
 @Produces(MediaType.APPLICATION_JSON)
-public class UserController {
-    final static Logger logger = LoggerFactory.getLogger(UserController.class);
+public class UserResource {
+    final static Logger logger = LoggerFactory.getLogger(UserResource.class);
 
     @Inject
     private UserRepository userRepository;

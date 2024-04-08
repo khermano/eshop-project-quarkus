@@ -20,7 +20,7 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.doReturn;
 
 @QuarkusTest
-public class UserControllerTest {
+public class UserResourceTest {
 
     @InjectMock
     private UserRepository userRepository;
@@ -30,7 +30,7 @@ public class UserControllerTest {
 
     @Inject
     @MockitoConfig(convertScopes = true)
-    private UserController usersController;
+    private UserResource usersController;
 
     private static List<User> users;
 
