@@ -27,10 +27,12 @@ public class CategoryRepositoryTest {
 		categoryRepository.persist(cat2);
 		
 		List<Category> categories  = categoryRepository.findAll().list();
-		Assertions.assertEquals(categories.size(), 2);
 
-		Assertions.assertEquals(categories.get(0).getName(), cat1.getName());
-		Assertions.assertEquals(categories.get(1).getName(), cat2.getName());
+		Assertions.assertTrue(categories.contains(cat1));
+		Assertions.assertTrue(categories.contains(cat2));
+
+		categoryRepository.delete(cat1);
+		categoryRepository.delete(cat2);
 	}
 	
 	@Test
@@ -41,17 +43,17 @@ public class CategoryRepositoryTest {
 		Assertions.assertThrows(ConstraintViolationException.class, () -> categoryRepository.persist(cat));
 	}
 	
-//	@Test
-//	public void nameIsUnique(){
-//		Category cat = new Category();
-//		cat.setName("Electronics");
-//		categoryRepository.persist(cat);
-//
-//		Category cat2 = new Category();
-//		cat2.setName("Electronics");
-//
-//		Assertions.assertThrows(IllegalArgumentException.class, () -> categoryRepository.persist(cat2));
-//	}
+	@Test
+	public void nameIsUnique(){
+		Category cat = new Category();
+		cat.setName("Electronics");
+		categoryRepository.persist(cat);
+
+		Category cat2 = new Category();
+		cat2.setName("Electronics");
+
+		Assertions.assertThrows(org.hibernate.exception.ConstraintViolationException.class, () -> categoryRepository.persist(cat2));
+	}
 	
 	@Test()
 	public void savesName(){
@@ -61,6 +63,8 @@ public class CategoryRepositoryTest {
 
 		Assertions.assertNotNull(categoryRepository.findByName("Electronics"));
 		Assertions.assertEquals(categoryRepository.findByName("Electronics").getName(), "Electronics");
+
+		categoryRepository.delete(cat);
 	}
 
 	@Test()
