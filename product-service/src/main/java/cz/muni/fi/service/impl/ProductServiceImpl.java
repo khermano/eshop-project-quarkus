@@ -5,7 +5,7 @@ import cz.muni.fi.entity.Price;
 import cz.muni.fi.entity.Product;
 import cz.muni.fi.enums.Currency;
 import cz.muni.fi.exception.EshopServiceException;
-import cz.muni.fi.feign.CategoryInterface;
+//import cz.muni.fi.feign.CategoryInterface;
 import cz.muni.fi.repository.PriceRepository;
 import cz.muni.fi.repository.ProductRepository;
 import cz.muni.fi.service.BeanMappingService;
@@ -29,8 +29,8 @@ public class ProductServiceImpl implements ProductService {
 	@Inject
 	private PriceRepository priceRepository;
 
-	@Inject
-	private CategoryInterface categoryInterface;
+//	@Inject
+//	private CategoryInterface categoryInterface;
 
 	@Inject
 	private BeanMappingService beanMappingService;
@@ -111,26 +111,26 @@ public class ProductServiceImpl implements ProductService {
 		productRepository.persist(p);
 	}
 
-	@Override
-	public void addCategory(Long productId, Long categoryId) {
-		Product product = productRepository.findById(productId);
-
-		if(product != null) {
-			throw new EshopServiceException("Product with given ID doesn't exist");
-		}
-		if (product.getCategoriesId().contains(categoryId)) {
-			throw new EshopServiceException(
-					"Product already contains this category. Product: "
-							+ productId + ", category: "
-							+ categoryId);
-		}
-		if (categoryInterface.getCategory(categoryId).getStatusCode() == HttpStatus.SC_OK) {
-			product.addCategoryId(categoryId);
-			productRepository.persist(product);
-		} else {
-			throw new EshopServiceException("There is a problem retrieving category with given ID");
-		}
-	}
+//	@Override
+//	public void addCategory(Long productId, Long categoryId) {
+//		Product product = productRepository.findById(productId);
+//
+//		if(product != null) {
+//			throw new EshopServiceException("Product with given ID doesn't exist");
+//		}
+//		if (product.getCategoriesId().contains(categoryId)) {
+//			throw new EshopServiceException(
+//					"Product already contains this category. Product: "
+//							+ productId + ", category: "
+//							+ categoryId);
+//		}
+//		if (categoryInterface.getCategory(categoryId).getStatusCode() == HttpStatus.SC_OK) {
+//			product.addCategoryId(categoryId);
+//			productRepository.persist(product);
+//		} else {
+//			throw new EshopServiceException("There is a problem retrieving category with given ID");
+//		}
+//	}
 
 	@Override
 	public BigDecimal getCurrencyRate(Currency currencyFrom, Currency currencyTo) {
