@@ -53,6 +53,7 @@ public class CategoryRepositoryTest {
 		cat2.setName("Electronics");
 
 		Assertions.assertThrows(org.hibernate.exception.ConstraintViolationException.class, () -> categoryRepository.persist(cat2));
+		categoryRepository.delete(cat);
 	}
 	
 	@Test()
