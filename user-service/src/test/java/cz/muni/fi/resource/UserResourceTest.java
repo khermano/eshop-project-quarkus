@@ -30,7 +30,7 @@ public class UserResourceTest {
 
     @Inject
     @MockitoConfig(convertScopes = true)
-    private UserResource usersController;
+    private UserResource userResource;
 
     private static List<User> users;
 
