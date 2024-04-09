@@ -1,4 +1,4 @@
-package cz.muni.fi.controller;
+package cz.muni.fi.resource;
 
 import cz.muni.fi.entity.User;
 import cz.muni.fi.repository.UserRepository;
