@@ -8,8 +8,6 @@ import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import org.jboss.resteasy.reactive.RestResponse;
-import org.jboss.resteasy.reactive.RestResponse.ResponseBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Collection;
@@ -47,12 +45,12 @@ public class UserResource {
      */
     @GET
     @Path("{id}")
-    public RestResponse<User> getUser(long id) {
+    public User getUser(long id) {
         logger.debug("rest getUser({})", id);
 
         User user = userRepository.findById(id);
         if (user != null) {
-            return ResponseBuilder.ok(user).build();
+            return user;
         }
         else {
             throw new NotFoundException("The requested resource was not found");
