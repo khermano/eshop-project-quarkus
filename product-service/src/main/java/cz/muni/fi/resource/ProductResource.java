@@ -52,7 +52,7 @@ public class ProductResource {
      * @return list of all products
      */
 //    @GET
-//    public List<ProductDTO> getProducts() {
+//    public Response getProducts() {
 //        logger.debug("rest getProducts()");
 //
 //        List<ProductDTO> productDTOs = new ArrayList<>();
@@ -61,7 +61,7 @@ public class ProductResource {
 //            productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
 //            productDTOs.add(productDTO);
 //        }
-//        return productDTOs;
+//        return Response.ok(productDTOs).build();
 //    }
 
     /**
@@ -69,21 +69,20 @@ public class ProductResource {
      * e.g.: curl -i -X GET http://localhost:8080/eshop-rest/products/1
      *
      * @param id of the product
-     * @return product with given id
-     * @throws NotFoundException if product with given id doesn't exist
+     * @return product with given id, 404 if product with given id doesn't exist
      */
 //    @GET
 //    @Path("/{id}")
-//    public ProductDTO getProduct(long id) {
+//    public Response getProduct(long id) {
 //        logger.debug("rest getProduct({})", id);
 //
 //        Product product = productRepository.findById(id);
 //        if (product != null) {
 //            ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
 //            productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
-//            return productDTO;
+//            return Response.ok(productDTO).build();
 //        } else {
-//            throw new NotFoundException("The requested resource was not found");
+//            return Response.status(404,"The requested resource was not found").build();
 //        }
 //    }
 
@@ -91,19 +90,19 @@ public class ProductResource {
      * deletes a product with the given id
      * e.g.: curl -i -X DELETE http://localhost:8080/eshop-rest/products/11
      *
-     * @param id of the product
-     * @throws NotFoundException if product with given id doesn't exist
+     * @param id of the product, 404 if product with given id doesn't exist
      */
     @DELETE
     @Path("/{id}")
-    public void deleteProduct(long id) {
+    public Response deleteProduct(long id) {
         logger.debug("rest deleteProduct({})", id);
 
         if (productRepository.findById(id) != null) {
             productRepository.deleteById(id);
         } else {
-            throw new NotFoundException("The requested resource was not found");
+            return Response.status(404,"The requested resource was not found").build();
         }
+        return Response.ok().build();
     }
 
     /**
