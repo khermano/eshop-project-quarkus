@@ -4,13 +4,12 @@ import cz.muni.fi.entity.Category;
 import cz.muni.fi.repository.CategoryRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
-import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
 
 /**
  * REST Controller for Categories
@@ -30,10 +29,10 @@ public class CategoryResource {
      * @return list of Categories
      */
     @GET
-    public List<Category> getCategories() {
+    public Response getCategories() {
         logger.debug("rest getCategories()");
 
-        return categoryRepository.findAll().list();
+        return Response.ok(categoryRepository.findAll().list()).build();
     }
 
     /**
@@ -41,18 +40,18 @@ public class CategoryResource {
      * e.g.: curl -i -X GET http://localhost:8080/eshop-rest/categories/1
      * 
      * @param id identifier for the category
-     * @return Category with given ID
+     * @return Category with given ID or 404
      */
     @GET
     @Path("{id}")
-    public Category getCategory(long id) {
+    public Response getCategory(long id) {
         logger.debug("rest getCategory({})", id);
 
         Category category = categoryRepository.findById(id);
         if (category != null) {
-            return category;
+            return Response.ok(category).build();
         } else {
-            throw new NotFoundException("The requested resource was not found");
+            return Response.status(404,"The requested resource was not found").build();
         }
     }
 }
