@@ -12,12 +12,18 @@ import cz.muni.fi.exception.EshopServiceException;
 import cz.muni.fi.repository.ProductRepository;
 import cz.muni.fi.service.BeanMappingService;
 import cz.muni.fi.service.ProductService;
+import cz.muni.fi.stork.CategoryInterface;
+import io.quarkus.deployment.util.IoUtil;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.dozer.config.BeanContainer;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +48,9 @@ public class ProductResource {
     @Inject
     private BeanMappingService beanMappingService;
 
+    @RestClient
+    private CategoryInterface categoryInterface;
+
 //    @Inject
 //    private CategoryInterface categoryInterface;
 
@@ -51,18 +60,27 @@ public class ProductResource {
      *
      * @return list of all products
      */
-//    @GET
-//    public Response getProducts() {
-//        logger.debug("rest getProducts()");
-//
-//        List<ProductDTO> productDTOs = new ArrayList<>();
-//        for (Product product : productRepository.findAll().list()) {
-//            ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
-//            productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
-//            productDTOs.add(productDTO);
-//        }
-//        return Response.ok(productDTOs).build();
-//    }
+    @GET
+    public Response getProducts() {
+        logger.debug("rest getProducts()");
+
+        List<ProductDTO> productDTOs = new ArrayList<>();
+        for (Product product : productRepository.findAll().list()) {
+            ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
+            productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
+            productDTOs.add(productDTO);
+        }
+        return Response.ok(productDTOs).build();
+    }
+
+
+
+    @GET
+    @Path("/test")
+    public void test() throws IOException {
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        System.out.println(IoUtil.readClassAsBytes(contextClassLoader, "cz.muni.fi.entity.Price"));
+    }
 
     /**
      * returns the product with the given id
@@ -71,20 +89,20 @@ public class ProductResource {
      * @param id of the product
      * @return product with given id, 404 if product with given id doesn't exist
      */
-//    @GET
-//    @Path("/{id}")
-//    public Response getProduct(long id) {
-//        logger.debug("rest getProduct({})", id);
-//
-//        Product product = productRepository.findById(id);
-//        if (product != null) {
-//            ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
-//            productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
-//            return Response.ok(productDTO).build();
-//        } else {
-//            return Response.status(404,"The requested resource was not found").build();
-//        }
-//    }
+    @GET
+    @Path("/{id}")
+    public Response getProduct(long id) {
+        logger.debug("rest getProduct({})", id);
+
+        Product product = productRepository.findById(id);
+        if (product != null) {
+            ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
+            productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
+            return Response.ok(productDTO).build();
+        } else {
+            return Response.status(404,"The requested resource was not found").build();
+        }
+    }
 
     /**
      * deletes a product with the given id
@@ -116,33 +134,33 @@ public class ProductResource {
      *                    you either fill both image and imageType or none of them (see @AllOrNothing)
      * @return the created product or 422 when invalid data provided or anything went wrong
      */
-//    @POST
-//    @Path("/create")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public Response createProduct(ProductCreateDTO productInfo) {
-//        logger.debug("rest createProduct()");
-//
-//        try {
-//            Product product = beanMappingService.mapTo(productInfo, Product.class);
-//            Price price = new Price();
-//            price.setValue(productInfo.getPrice());
-//            price.setCurrency(productInfo.getCurrency());
-//            Date now = new Date();
-//            price.setPriceStart(now);
-//            product.setAddedDate(now);
-//            product.setCurrentPrice(price);
-//            product.addHistoricalPrice(price);
-//            product.addCategoryId(productInfo.getCategoryId());
-//            product = productService.createProduct(product);
-//
-//            ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
-//            productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
-//            return Response.ok(productDTO).build();
-//        } catch (Exception ex) {
-//            // we needed to throw the 422 exception here to reproduce behaviour of the original project
-//            return Response.status(422,"the requested resource already exists").build();
-//        }
-//    }
+    @POST
+    @Path("/create")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createProduct(ProductCreateDTO productInfo) {
+        logger.debug("rest createProduct()");
+
+        try {
+            Product product = beanMappingService.mapTo(productInfo, Product.class);
+            Price price = new Price();
+            price.setValue(productInfo.getPrice());
+            price.setCurrency(productInfo.getCurrency());
+            Date now = new Date();
+            price.setPriceStart(now);
+            product.setAddedDate(now);
+            product.setCurrentPrice(price);
+            product.addHistoricalPrice(price);
+            product.addCategoryId(productInfo.getCategoryId());
+            product = productService.createProduct(product);
+
+            ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
+            productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
+            return Response.ok(productDTO).build();
+        } catch (Exception ex) {
+            // we needed to throw the 422 exception here to reproduce behaviour of the original project
+            return Response.status(422,"the requested resource already exists").build();
+        }
+    }
 
     /**
      * update the price for one product
@@ -153,31 +171,31 @@ public class ProductResource {
      * @param newPrice NewPriceDTO with required fields for creation (value, and currency [available values: CZK, EUR, USD] can't be null)
      * @return the updated product, 500 if there is no product with given id or 406 if value of price is changed more than 10% or something else went wrong
      */
-//    @PUT
-//    @Path("/{id}")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public Response changePrice(long id, NewPriceDTO newPrice) {
-//        logger.debug("rest changePrice({})", id);
-//
-//        Product product = productRepository.findById(id);
-//        if (product != null) {
-//            return Response.status(500).build();
-//        }
-//        try {
-//            productService.changePrice(product, newPrice);
-//        } catch (EshopServiceException e) {
-//            return Response.status(406).build();
-//        }
-//
-//        product = productRepository.findById(id);
-//        if (product != null) {
-//            ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
-//            productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
-//            return Response.ok(productDTO).build();
-//        } else {
-//            return Response.status(406).build();
-//        }
-//    }
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response changePrice(long id, NewPriceDTO newPrice) {
+        logger.debug("rest changePrice({})", id);
+
+        Product product = productRepository.findById(id);
+        if (product != null) {
+            return Response.status(500).build();
+        }
+        try {
+            productService.changePrice(product, newPrice);
+        } catch (EshopServiceException e) {
+            return Response.status(406).build();
+        }
+
+        product = productRepository.findById(id);
+        if (product != null) {
+            ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
+            productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
+            return Response.ok(productDTO).build();
+        } else {
+            return Response.status(406).build();
+        }
+    }
 
     /**
      * adds a new category to the product
@@ -188,26 +206,26 @@ public class ProductResource {
      *                 the original project used CategoryDTO, but parameter name was never used
      * @return the updated product as defined by ProductDTO, 406 if something went wrong
      */
-//    @POST
-//    @Path("/{id}/categories")
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    public Response addCategory(long id, long categoryId) {
-//        logger.debug("rest addCategory({})", id);
-//
-//        try {
-//            productService.addCategory(id, categoryId);
-//            Product product = productRepository.findById(id);
-//            if (product != null) {
-//                ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
-//                productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
-//                return Response.ok(productDTO).build();
-//            } else {
-//                return Response.status(406).build();
-//            }
-//        } catch (Exception ex) {
-//            return Response.status(406).build();
-//        }
-//    }
+    @POST
+    @Path("/{id}/categories")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addCategory(long id, long categoryId) {
+        logger.debug("rest addCategory({})", id);
+
+        try {
+            productService.addCategory(id, categoryId);
+            Product product = productRepository.findById(id);
+            if (product != null) {
+                ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
+                productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
+                return Response.ok(productDTO).build();
+            } else {
+                return Response.status(406).build();
+            }
+        } catch (Exception ex) {
+            return Response.status(406).build();
+        }
+    }
 
     /**
      * get the current price of the product with the given id
@@ -253,11 +271,11 @@ public class ProductResource {
         }
     }
 
-//    private Set<CategoryDTO> getCategoriesFromIds(Set<Long> categoriesId) {
-//        Set<CategoryDTO> categories = new HashSet<>();
-//        for (Long categoryId: categoriesId) {
-//            categories.add(categoryInterface.getCategory(categoryId).getBody());
-//        }
-//        return categories;
-//    }
+    private Set<CategoryDTO> getCategoriesFromIds(Set<Long> categoriesId) {
+        Set<CategoryDTO> categories = new HashSet<>();
+        for (Long categoryId: categoriesId) {
+            categories.add(categoryInterface.getCategory(categoryId).readEntity(CategoryDTO.class));
+        }
+        return categories;
+    }
 }
