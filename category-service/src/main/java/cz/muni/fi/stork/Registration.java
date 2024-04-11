@@ -26,6 +26,6 @@ public class Registration {
         ConsulClient client = ConsulClient.create(vertx, new ConsulClientOptions().setHost(host).setPort(port));
 
         client.registerServiceAndAwait(
-                new ServiceOptions().setPort(categories).setAddress("localhost").setName("categories").setId("categories"));
+                new ServiceOptions().setPort(categories).setAddress("localhost").setName("categories"));
     }
 }
