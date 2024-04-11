@@ -10,7 +10,7 @@ import cz.muni.fi.repository.PriceRepository;
 import cz.muni.fi.repository.ProductRepository;
 import cz.muni.fi.service.BeanMappingService;
 import cz.muni.fi.service.ProductService;
-import cz.muni.fi.stork.CategoryInterface;
+import cz.muni.fi.stork.CategoryClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.http.HttpStatus;
@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 //	private CategoryInterface categoryInterface;
 
 	@RestClient
-	private CategoryInterface categoryInterface;
+	private CategoryClient categoryInterface;
 
 	@Inject
 	private BeanMappingService beanMappingService;

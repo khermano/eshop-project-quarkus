@@ -1,16 +1,15 @@
 package cz.muni.fi.utils;
 
-//import io.quarkus.bootstrap.classloading.QuarkusClassLoader;
 import org.dozer.util.DozerClassLoader;
 import java.net.URL;
 
-public class MyDozerClasLoader implements DozerClassLoader {
+public class MyDozerClassLoader implements DozerClassLoader {
 
-    private ClassLoader cl = Thread.currentThread().getContextClassLoader();
+    private ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     @Override
     public Class<?> loadClass(String className) {
         try {
-            return cl.loadClass(className);
+            return classLoader.loadClass(className);
         } catch (ClassNotFoundException e) {
             return null;
         }
@@ -18,7 +17,6 @@ public class MyDozerClasLoader implements DozerClassLoader {
 
     @Override
     public URL loadResource(String uri) {
-
-        return cl.getResource(uri);
+        return classLoader.getResource(uri);
     }
 }

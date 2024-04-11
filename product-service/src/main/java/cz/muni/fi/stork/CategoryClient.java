@@ -15,10 +15,10 @@ import jakarta.ws.rs.core.MediaType;
  * and selection in the `application.properties` file.
  */
 @RegisterRestClient(baseUri = "stork://categories")
-public interface CategoryInterface {
+public interface CategoryClient {
 
     @GET
-    @Path("{id}")
+    @Path("/categories/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     Response getCategory(long id);
 }

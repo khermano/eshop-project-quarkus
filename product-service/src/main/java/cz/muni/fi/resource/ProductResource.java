@@ -12,19 +12,17 @@ import cz.muni.fi.exception.EshopServiceException;
 import cz.muni.fi.repository.ProductRepository;
 import cz.muni.fi.service.BeanMappingService;
 import cz.muni.fi.service.ProductService;
-import cz.muni.fi.stork.CategoryInterface;
+import cz.muni.fi.stork.CategoryClient;
 import io.quarkus.deployment.util.IoUtil;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.dozer.config.BeanContainer;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -49,7 +47,7 @@ public class ProductResource {
     private BeanMappingService beanMappingService;
 
     @RestClient
-    private CategoryInterface categoryInterface;
+    private CategoryClient categoryInterface;
 
 //    @Inject
 //    private CategoryInterface categoryInterface;
