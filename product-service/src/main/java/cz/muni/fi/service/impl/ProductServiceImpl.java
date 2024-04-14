@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 //	private CategoryInterface categoryInterface;
 
 	@RestClient
-	private CategoryClient categoryInterface;
+	private CategoryClient categoryClient;
 
 	@Inject
 	private BeanMappingService beanMappingService;
@@ -130,7 +130,7 @@ public class ProductServiceImpl implements ProductService {
 							+ productId + ", category: "
 							+ categoryId);
 		}
-		if (categoryInterface.getCategory(categoryId).getStatus() == HttpStatus.SC_OK) {
+		if (categoryClient.getCategory(categoryId).getStatus() == HttpStatus.SC_OK) {
 			product.addCategoryId(categoryId);
 			productRepository.persist(product);
 		} else {
