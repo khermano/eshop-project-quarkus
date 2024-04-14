@@ -17,7 +17,7 @@ public class Registration {
     @ConfigProperty(name = "consul.host") String host;
     @ConfigProperty(name = "consul.port") int port;
 
-    @ConfigProperty(name = "orders-port", defaultValue = "8082") int orders;
+    @ConfigProperty(name = "orders-port", defaultValue = "8084") int orders;
 
     @Inject
     LaunchMode mode;
