@@ -8,6 +8,7 @@ import cz.muni.fi.enums.OrderState;
 import cz.muni.fi.repository.OrderRepository;
 import cz.muni.fi.service.OrderService;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -25,6 +26,7 @@ import java.util.List;
  */
 @Path("/orders") //TODO remove this after adding API GATEWAY
 @Produces(MediaType.APPLICATION_JSON)
+@Transactional
 public class OrderResource {
     final static Logger logger = LoggerFactory.getLogger(OrderResource.class);
 

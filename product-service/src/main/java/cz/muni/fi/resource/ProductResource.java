@@ -13,6 +13,7 @@ import cz.muni.fi.service.BeanMappingService;
 import cz.muni.fi.service.ProductService;
 import cz.muni.fi.stork.CategoryClient;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -30,6 +31,7 @@ import java.util.Set;
  */
 @Path("/products") //TODO remove this after adding API GATEWAY
 @Produces(MediaType.APPLICATION_JSON)
+@Transactional
 public class ProductResource {
     final static Logger logger = LoggerFactory.getLogger(ProductResource.class);
 
@@ -160,7 +162,7 @@ public class ProductResource {
         logger.debug("rest changePrice({})", id);
 
         Product product = productRepository.findById(id);
-        if (product != null) {
+        if (product == null) {
             return Response.status(500).build();
         }
         try {
@@ -213,7 +215,7 @@ public class ProductResource {
      * get the current price of the product with the given id
      * this method is not from the original project, it needed to be created for the
      * OrderService's getTotalPrice method, so the original functionality stays
-     * e.g.: curl -i -X GET http://localhost:8080/products/2/currentPrice
+     * e.g.: curl -i -X GET http://localhost:8080/eshop-rest/products/2/currentPrice
      *
      * @param id of the product
      * @return current price of the product with the given id, 404 if product with given id doesn't exist
@@ -235,7 +237,7 @@ public class ProductResource {
      * get the currency rate for a given currency pair
      * this method is not from the original project, it needed to be created for the
      * OrderService's getTotalPrice method, so the original functionality stays
-     * e.g.: curl -i -X GET http://localhost:8080/products/getCurrencyRate/CZK/EUR
+     * e.g.: curl -i -X GET http://localhost:8080/eshop-rest/products/getCurrencyRate/CZK/EUR
      *
      * @param currency1 first currency of the pair [available values: CZK, EUR, USD]
      * @param currency2 second currency of the pair [available values: CZK, EUR, USD]

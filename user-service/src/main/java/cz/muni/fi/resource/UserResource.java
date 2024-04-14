@@ -3,6 +3,7 @@ package cz.muni.fi.resource;
 import cz.muni.fi.entity.User;
 import cz.muni.fi.repository.UserRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 @Path("/users") //TODO remove this after adding API GATEWAY
 @Produces(MediaType.APPLICATION_JSON)
+@Transactional
 public class UserResource {
     final static Logger logger = LoggerFactory.getLogger(UserResource.class);
 

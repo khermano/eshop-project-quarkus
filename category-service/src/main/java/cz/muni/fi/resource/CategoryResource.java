@@ -3,6 +3,7 @@ package cz.muni.fi.resource;
 import cz.muni.fi.entity.Category;
 import cz.muni.fi.repository.CategoryRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 @Path("/categories") //TODO remove this after adding API GATEWAY
 @Produces(MediaType.APPLICATION_JSON)
+@Transactional
 public class CategoryResource {
     final static Logger logger = LoggerFactory.getLogger(CategoryResource.class);
 
