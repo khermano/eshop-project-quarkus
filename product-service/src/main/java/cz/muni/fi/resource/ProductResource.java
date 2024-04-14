@@ -8,12 +8,10 @@ import cz.muni.fi.entity.Price;
 import cz.muni.fi.entity.Product;
 import cz.muni.fi.enums.Currency;
 import cz.muni.fi.exception.EshopServiceException;
-//import cz.muni.fi.feign.CategoryInterface;
 import cz.muni.fi.repository.ProductRepository;
 import cz.muni.fi.service.BeanMappingService;
 import cz.muni.fi.service.ProductService;
 import cz.muni.fi.stork.CategoryClient;
-import io.quarkus.deployment.util.IoUtil;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -21,8 +19,6 @@ import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -49,9 +45,6 @@ public class ProductResource {
     @RestClient
     private CategoryClient categoryInterface;
 
-//    @Inject
-//    private CategoryInterface categoryInterface;
-
     /**
      * returns all products
      * e.g.: curl -i -X GET http://localhost:8080/eshop-rest/products
@@ -69,15 +62,6 @@ public class ProductResource {
             productDTOs.add(productDTO);
         }
         return Response.ok(productDTOs).build();
-    }
-
-
-
-    @GET
-    @Path("/test")
-    public void test() throws IOException {
-        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-        System.out.println(IoUtil.readClassAsBytes(contextClassLoader, "cz.muni.fi.entity.Price"));
     }
 
     /**

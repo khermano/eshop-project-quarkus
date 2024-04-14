@@ -27,8 +27,7 @@ public class Registration {
      * Note: this method is called on a worker thread, and so it is allowed to block.
      */
     public void init(@Observes StartupEvent ev, Vertx vertx) {
-        if (mode != LaunchMode.TEST) { //https://quarkus.io/guides/lifecycle#launch-modes - padali mi bez toho testy
-//        System.out.println(mode.name());
+        if (mode != LaunchMode.TEST) {
             ConsulClient client = ConsulClient.create(vertx, new ConsulClientOptions().setHost(host).setPort(port));
 
             client.registerServiceAndAwait(
