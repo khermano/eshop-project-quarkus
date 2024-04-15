@@ -7,7 +7,6 @@ import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.test.InjectMock;
 import org.mockito.Mock;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.junit.mockito.MockitoConfig;
 import io.restassured.http.ContentType;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeAll;
@@ -29,7 +28,6 @@ public class CategoryResourceTest {
     private PanacheQuery panacheQuery;
 
     @Inject
-    @MockitoConfig(convertScopes = true)
     private CategoryResource categoryResource;
 
     private static List<Category> categories;
