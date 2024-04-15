@@ -14,8 +14,6 @@ public class BeanMappingServiceImpl implements BeanMappingService {
     @Produces
     @ApplicationScoped
     private Mapper getDozer() {
-
-
         BeanContainer.getInstance().setClassLoader(new MyDozerClassLoader());
         return new DozerBeanMapper();
     }
