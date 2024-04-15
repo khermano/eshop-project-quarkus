@@ -12,5 +12,5 @@ public interface OrderService {
 
 	void shipOrder(Order order, OrderState state);
 
-//	OrderDTO getOrderDTOFromOrder(Order order);
+	OrderDTO getOrderDTOFromOrder(Order order);
 }
