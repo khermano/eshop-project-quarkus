@@ -87,7 +87,7 @@ public class OrderResource {
      * @return list of orders created by user with given id
      */
     @GET
-    @Path("by_user_id/{userId}")
+    @Path("/by_user_id/{userId}")
     public Response getOrdersByUserId(long userId) {
         logger.debug("rest getOrderByUserId({})", userId);
 
@@ -142,7 +142,7 @@ public class OrderResource {
      * @return order on which action was performed, 406 if the action parameter is invalid, 500 if order with given ID doesn't exist or something else went wrong
      */
     @POST
-    @Path("{orderId}")
+    @Path("/{orderId}")
     public Response shipOrder(long orderId, @QueryParam("action") Action action) {
         logger.debug("rest shipOrder({})", orderId);
 
