@@ -1,6 +1,7 @@
 package cz.muni.fi.stork;
 
 import io.quarkus.runtime.LaunchMode;
+import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 import io.vertx.ext.consul.ServiceOptions;
 import io.vertx.mutiny.ext.consul.ConsulClient;
@@ -34,5 +35,13 @@ public class Registration {
                     new ServiceOptions().setPort(categories).setAddress("localhost").setName("categories"));
         }
 
+    }
+
+    public void shutDown(@Observes ShutdownEvent ev, Vertx vertx) {
+        if (mode != LaunchMode.TEST) {
+            ConsulClient client = ConsulClient.create(vertx, new ConsulClientOptions().setHost(host).setPort(port));
+
+            client.deregisterServiceAndAwait("categories");
+        }
     }
 }
