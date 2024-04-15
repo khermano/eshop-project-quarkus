@@ -5,7 +5,6 @@ import cz.muni.fi.repository.UserRepository;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.junit.mockito.MockitoConfig;
 import io.restassured.http.ContentType;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeAll;
@@ -29,7 +28,6 @@ public class UserResourceTest {
     private PanacheQuery panacheQuery;
 
     @Inject
-    @MockitoConfig(convertScopes = true)
     private UserResource userResource;
 
     private static List<User> users;
