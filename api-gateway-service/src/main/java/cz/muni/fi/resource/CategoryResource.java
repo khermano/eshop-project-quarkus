@@ -11,6 +11,8 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 /**
  * REST Controller for Categories
+ * In every method I need to check the response status if it is different from 200 and create a new Response to return,
+ * otherwise I am getting 500 - ClientWebApplicationException with real HTTP status code and reason
  */
 @Path("/categories")
 @Produces(MediaType.APPLICATION_JSON)
@@ -27,7 +29,12 @@ public class CategoryResource {
      */
     @GET
     public Response getCategories() {
-        return categoryClient.getCategories();
+        Response response = categoryClient.getCategories();
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 
     /**
@@ -40,6 +47,11 @@ public class CategoryResource {
     @GET
     @Path("{id}")
     public Response getCategory(long id) {
-        return categoryClient.getCategory(id);
+        Response response = categoryClient.getCategory(id);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 }

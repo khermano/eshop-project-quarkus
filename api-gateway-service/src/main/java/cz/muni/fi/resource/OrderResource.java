@@ -15,6 +15,8 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 /**
  * REST Controller for Orders
+ * In every method I need to check the response status if it is different from 200 and create a new Response to return,
+ * otherwise I am getting 500 - ClientWebApplicationException with real HTTP status code and reason
  */
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
@@ -36,7 +38,12 @@ public class OrderResource {
      */
     @GET
     public Response getOrders(@QueryParam("status") String status, @QueryParam("last_week") @DefaultValue("false") boolean lastWeek) {
-        return orderClient.getOrders(status, lastWeek);
+        Response response = orderClient.getOrders(status, lastWeek);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 
     /**
@@ -49,7 +56,12 @@ public class OrderResource {
     @GET
     @Path("/by_user_id/{userId}")
     public Response getOrdersByUserId(long userId) {
-        return orderClient.getOrdersByUserId(userId);
+        Response response = orderClient.getOrdersByUserId(userId);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 
     /**
@@ -62,7 +74,12 @@ public class OrderResource {
     @GET
     @Path("/{id}")
     public Response getOrder(long id) {
-        return orderClient.getOrder(id);
+        Response response = orderClient.getOrder(id);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 
     /**
@@ -74,11 +91,17 @@ public class OrderResource {
      *
      * @param orderId id of the order
      * @param action one of CANCEL, SHIP, FINISH
-     * @return order on which action was performed, 406 if the action parameter is invalid, 500 if order with given ID doesn't exist or something else went wrong
+     * @return order on which action was performed, 404 if the action parameter is invalid (not 406, Quarkus is behaving
+     *         different from Spring Boot when enum is invalid), 500 if order with given ID doesn't exist or something else went wrong
      */
     @POST
     @Path("/{orderId}")
     public Response shipOrder(long orderId, @QueryParam("action") Action action) {
-        return orderClient.shipOrder(orderId, action);
+        Response response = orderClient.shipOrder(orderId, action);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 }

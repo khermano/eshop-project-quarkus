@@ -18,6 +18,8 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 /**
  * REST Controller for Products
+ * In every method I need to check the response status if it is different from 200 and create a new Response to return,
+ * otherwise I am getting 500 - ClientWebApplicationException with real HTTP status code and reason
  */
 @Path("/products")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,7 +36,12 @@ public class ProductResource {
      */
     @GET
     public Response getProducts() {
-        return productClient.getProducts();
+        Response response = productClient.getProducts();
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 
     /**
@@ -47,7 +54,12 @@ public class ProductResource {
     @GET
     @Path("/{id}")
     public Response getProduct(long id) {
-        return productClient.getProduct(id);
+        Response response = productClient.getProduct(id);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 
     /**
@@ -59,7 +71,12 @@ public class ProductResource {
     @DELETE
     @Path("/{id}")
     public Response deleteProduct(long id) {
-        return productClient.deleteProduct(id);
+        Response response = productClient.deleteProduct(id);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 
     /**
@@ -77,7 +94,12 @@ public class ProductResource {
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createProduct(ProductCreateDTO productInfo) {
-        return productClient.createProduct(productInfo);
+        Response response = productClient.createProduct(productInfo);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 
     /**
@@ -93,7 +115,12 @@ public class ProductResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response changePrice(long id, NewPriceDTO newPrice) {
-        return productClient.changePrice(id, newPrice);
+        Response response = productClient.changePrice(id, newPrice);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 
     /**
@@ -109,7 +136,12 @@ public class ProductResource {
     @Path("/{id}/categories")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addCategory(long id, long categoryId) {
-        return productClient.addCategory(id, categoryId);
+        Response response = productClient.addCategory(id, categoryId);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 
     /**
@@ -124,7 +156,12 @@ public class ProductResource {
     @GET
     @Path("/{id}/currentPrice")
     public Response getProductPriceByProductId(long id) {
-        return productClient.getProductPriceByProductId(id);
+        Response response = productClient.getProductPriceByProductId(id);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 
     /**
@@ -140,6 +177,11 @@ public class ProductResource {
     @GET
     @Path("getCurrencyRate/{currency1}/{currency2}")
     public Response getCurrencyRate(Currency currency1, Currency currency2) {
-        return productClient.getCurrencyRate(currency1, currency2);
+        Response response = productClient.getCurrencyRate(currency1, currency2);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 }

@@ -11,6 +11,8 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 /**
  * REST Controller for Users
+ * In every method I need to check the response status if it is different from 200 and create a new Response to return,
+ * otherwise I am getting 500 - ClientWebApplicationException with real HTTP status code and reason
  */
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
@@ -28,7 +30,12 @@ public class UserResource {
      */
     @GET
     public Response getUsers() {
-        return userClient.getUsers();
+        Response response = userClient.getUsers();
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 
     /**
@@ -41,6 +48,11 @@ public class UserResource {
     @GET
     @Path("{id}")
     public Response getUser(long id) {
-        return userClient.getUser(id);
+        Response response = userClient.getUser(id);
+
+        if (response.getStatus() != 200) {
+            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        }
+        return response;
     }
 }
