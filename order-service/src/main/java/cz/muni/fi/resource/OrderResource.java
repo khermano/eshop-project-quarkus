@@ -144,7 +144,8 @@ public class OrderResource {
      *
      * @param orderId id of the order
      * @param action one of CANCEL, SHIP, FINISH
-     * @return order on which action was performed, 406 if the action parameter is invalid, 500 if order with given ID doesn't exist or something else went wrong
+     * @return order on which action was performed, 404 if the action parameter is invalid (not 406, Quarkus is behaving
+     *         different from Spring Boot when enum is invalid), 500 if order with given ID doesn't exist or something else went wrong
      */
     @POST
     @Path("/{orderId}")
