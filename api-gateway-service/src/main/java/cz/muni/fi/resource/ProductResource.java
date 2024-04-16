@@ -4,6 +4,7 @@ import cz.muni.fi.client.ProductClient;
 import cz.muni.fi.dto.NewPriceDTO;
 import cz.muni.fi.dto.ProductCreateDTO;
 import cz.muni.fi.enums.Currency;
+import cz.muni.fi.utils.Utils;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -15,11 +16,12 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.resteasy.reactive.ClientWebApplicationException;
 
 /**
  * REST Controller for Products
- * In every method I need to check the response status if it is different from 200 and create a new Response to return,
- * otherwise I am getting 500 - ClientWebApplicationException with real HTTP status code and reason
+ * In every method I need to try to catch ClientWebApplicationException and check if it is not containing
+ * some HTTP status code that we are returning, otherwise the real status code is hidden behind status code 500
  */
 @Path("/products")
 @Produces(MediaType.APPLICATION_JSON)
@@ -27,6 +29,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 public class ProductResource {
     @RestClient
     private ProductClient productClient;
+    private final Utils utils = new Utils();
 
     /**
      * returns all products
@@ -36,10 +39,16 @@ public class ProductResource {
      */
     @GET
     public Response getProducts() {
-        Response response = productClient.getProducts();
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = productClient.getProducts();
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
@@ -54,10 +63,16 @@ public class ProductResource {
     @GET
     @Path("/{id}")
     public Response getProduct(long id) {
-        Response response = productClient.getProduct(id);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = productClient.getProduct(id);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
@@ -71,10 +86,16 @@ public class ProductResource {
     @DELETE
     @Path("/{id}")
     public Response deleteProduct(long id) {
-        Response response = productClient.deleteProduct(id);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = productClient.deleteProduct(id);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
@@ -94,10 +115,16 @@ public class ProductResource {
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createProduct(ProductCreateDTO productInfo) {
-        Response response = productClient.createProduct(productInfo);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = productClient.createProduct(productInfo);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
@@ -115,10 +142,16 @@ public class ProductResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response changePrice(long id, NewPriceDTO newPrice) {
-        Response response = productClient.changePrice(id, newPrice);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = productClient.changePrice(id, newPrice);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
@@ -136,10 +169,16 @@ public class ProductResource {
     @Path("/{id}/categories")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addCategory(long id, long categoryId) {
-        Response response = productClient.addCategory(id, categoryId);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = productClient.addCategory(id, categoryId);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
@@ -156,10 +195,16 @@ public class ProductResource {
     @GET
     @Path("/{id}/currentPrice")
     public Response getProductPriceByProductId(long id) {
-        Response response = productClient.getProductPriceByProductId(id);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = productClient.getProductPriceByProductId(id);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
@@ -177,10 +222,16 @@ public class ProductResource {
     @GET
     @Path("getCurrencyRate/{currency1}/{currency2}")
     public Response getCurrencyRate(Currency currency1, Currency currency2) {
-        Response response = productClient.getCurrencyRate(currency1, currency2);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = productClient.getCurrencyRate(currency1, currency2);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }

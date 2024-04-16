@@ -1,6 +1,7 @@
 package cz.muni.fi.resource;
 
 import cz.muni.fi.client.CategoryClient;
+import cz.muni.fi.utils.Utils;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -8,11 +9,12 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.resteasy.reactive.ClientWebApplicationException;
 
 /**
  * REST Controller for Categories
- * In every method I need to check the response status if it is different from 200 and create a new Response to return,
- * otherwise I am getting 500 - ClientWebApplicationException with real HTTP status code and reason
+ * In every method I need to try to catch ClientWebApplicationException and check if it is not containing
+ * some HTTP status code that we are returning, otherwise the real status code is hidden behind status code 500
  */
 @Path("/categories")
 @Produces(MediaType.APPLICATION_JSON)
@@ -20,6 +22,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 public class CategoryResource {
     @RestClient
     private CategoryClient categoryClient;
+    private final Utils utils = new Utils();
 
     /**
      * Get list of Categories
@@ -29,10 +32,16 @@ public class CategoryResource {
      */
     @GET
     public Response getCategories() {
-        Response response = categoryClient.getCategories();
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = categoryClient.getCategories();
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
@@ -47,10 +56,16 @@ public class CategoryResource {
     @GET
     @Path("{id}")
     public Response getCategory(long id) {
-        Response response = categoryClient.getCategory(id);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = categoryClient.getCategory(id);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }

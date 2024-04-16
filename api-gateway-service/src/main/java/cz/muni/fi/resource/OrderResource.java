@@ -2,6 +2,7 @@ package cz.muni.fi.resource;
 
 import cz.muni.fi.client.OrderClient;
 import cz.muni.fi.enums.Action;
+import cz.muni.fi.utils.Utils;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
@@ -12,11 +13,12 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.resteasy.reactive.ClientWebApplicationException;
 
 /**
  * REST Controller for Orders
- * In every method I need to check the response status if it is different from 200 and create a new Response to return,
- * otherwise I am getting 500 - ClientWebApplicationException with real HTTP status code and reason
+ * In every method I need to try to catch ClientWebApplicationException and check if it is not containing
+ * some HTTP status code that we are returning, otherwise the real status code is hidden behind status code 500
  */
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
@@ -24,6 +26,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 public class OrderResource {
     @RestClient
     private OrderClient orderClient;
+    private final Utils utils = new Utils();
 
     /**
      * Returns all orders according to the given parameters
@@ -38,10 +41,16 @@ public class OrderResource {
      */
     @GET
     public Response getOrders(@QueryParam("status") String status, @QueryParam("last_week") @DefaultValue("false") boolean lastWeek) {
-        Response response = orderClient.getOrders(status, lastWeek);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = orderClient.getOrders(status, lastWeek);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
@@ -56,10 +65,16 @@ public class OrderResource {
     @GET
     @Path("/by_user_id/{userId}")
     public Response getOrdersByUserId(long userId) {
-        Response response = orderClient.getOrdersByUserId(userId);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = orderClient.getOrdersByUserId(userId);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
@@ -74,10 +89,16 @@ public class OrderResource {
     @GET
     @Path("/{id}")
     public Response getOrder(long id) {
-        Response response = orderClient.getOrder(id);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = orderClient.getOrder(id);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
@@ -97,10 +118,16 @@ public class OrderResource {
     @POST
     @Path("/{orderId}")
     public Response shipOrder(long orderId, @QueryParam("action") Action action) {
-        Response response = orderClient.shipOrder(orderId, action);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = orderClient.shipOrder(orderId, action);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }

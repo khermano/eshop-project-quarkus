@@ -1,6 +1,7 @@
 package cz.muni.fi.resource;
 
 import cz.muni.fi.client.UserClient;
+import cz.muni.fi.utils.Utils;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -8,11 +9,12 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.resteasy.reactive.ClientWebApplicationException;
 
 /**
  * REST Controller for Users
- * In every method I need to check the response status if it is different from 200 and create a new Response to return,
- * otherwise I am getting 500 - ClientWebApplicationException with real HTTP status code and reason
+ * In every method I need to try to catch ClientWebApplicationException and check if it is not containing
+ * some HTTP status code that we are returning, otherwise the real status code is hidden behind status code 500
  */
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
@@ -21,6 +23,7 @@ public class UserResource {
 
     @RestClient
     private UserClient userClient;
+    private final Utils utils = new Utils();
 
     /**
      * Returns all users
@@ -30,10 +33,16 @@ public class UserResource {
      */
     @GET
     public Response getUsers() {
-        Response response = userClient.getUsers();
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = userClient.getUsers();
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
@@ -48,10 +57,16 @@ public class UserResource {
     @GET
     @Path("{id}")
     public Response getUser(long id) {
-        Response response = userClient.getUser(id);
+        Response response;
 
-        if (response.getStatus() != 200) {
-            return Response.status(response.getStatus(), response.getStatusInfo().getReasonPhrase()).build();
+        try {
+            response = userClient.getUser(id);
+        } catch (ClientWebApplicationException e) {
+            if (e.getMessage().contains("status code")) {
+                return Response.status(utils.parseMessage(e.getMessage())).build();
+            } else {
+                throw e;
+            }
         }
         return response;
     }
