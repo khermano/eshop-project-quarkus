@@ -5,7 +5,6 @@ import cz.muni.fi.entity.Price;
 import cz.muni.fi.entity.Product;
 import cz.muni.fi.enums.Currency;
 import cz.muni.fi.exception.EshopServiceException;
-//import cz.muni.fi.feign.CategoryInterface;
 import cz.muni.fi.repository.PriceRepository;
 import cz.muni.fi.repository.ProductRepository;
 import cz.muni.fi.service.BeanMappingService;
@@ -15,7 +14,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.http.HttpStatus;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.AbstractMap;
@@ -31,9 +29,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Inject
 	private PriceRepository priceRepository;
-
-//	@Inject
-//	private CategoryInterface categoryInterface;
 
 	@RestClient
 	private CategoryClient categoryClient;

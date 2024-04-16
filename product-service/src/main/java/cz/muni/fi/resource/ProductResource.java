@@ -45,7 +45,7 @@ public class ProductResource {
     private BeanMappingService beanMappingService;
 
     @RestClient
-    private CategoryClient categoryInterface;
+    private CategoryClient categoryClient;
 
     /**
      * returns all products
@@ -258,7 +258,7 @@ public class ProductResource {
     private Set<CategoryDTO> getCategoriesFromIds(Set<Long> categoriesId) {
         Set<CategoryDTO> categories = new HashSet<>();
         for (Long categoryId: categoriesId) {
-            categories.add(categoryInterface.getCategory(categoryId).readEntity(CategoryDTO.class));
+            categories.add(categoryClient.getCategory(categoryId).readEntity(CategoryDTO.class));
         }
         return categories;
     }
