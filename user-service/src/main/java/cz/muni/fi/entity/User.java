@@ -14,7 +14,6 @@ import jakarta.validation.constraints.Pattern;
 import java.util.Date;
 
 @Entity
-//In Derby, 'USER' is reserved keyword, we need to rename table
 @Table(name="Users")
 public class User {
     @Id
