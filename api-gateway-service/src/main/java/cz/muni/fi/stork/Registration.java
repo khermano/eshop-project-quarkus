@@ -14,10 +14,8 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class Registration {
-
     @ConfigProperty(name = "consul.host") String host;
     @ConfigProperty(name = "consul.port") int port;
-
     @ConfigProperty(name = "apiGateway-port", defaultValue = "8080") int apiGateway;
 
     @Inject
@@ -34,7 +32,6 @@ public class Registration {
             client.registerServiceAndAwait(
                     new ServiceOptions().setPort(apiGateway).setAddress("localhost").setName("apiGateway"));
         }
-
     }
 
     public void shutDown(@Observes ShutdownEvent ev, Vertx vertx) {

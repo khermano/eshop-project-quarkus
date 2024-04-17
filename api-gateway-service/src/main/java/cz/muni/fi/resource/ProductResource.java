@@ -46,8 +46,6 @@ public class ProductResource {
      */
     @GET
     public Response getProducts() {
-        logger.debug("rest getProducts()");
-
         Response response;
         try {
             response = productClient.getProducts();
@@ -72,8 +70,6 @@ public class ProductResource {
     @GET
     @Path("/{id}")
     public Response getProduct(long id) {
-        logger.debug("rest getProduct({})", id);
-
         Response response;
         try {
             response = productClient.getProduct(id);
@@ -97,8 +93,6 @@ public class ProductResource {
     @DELETE
     @Path("/{id}")
     public Response deleteProduct(long id) {
-        logger.debug("rest deleteProduct({})", id);
-
         Response response;
         try {
             response = productClient.deleteProduct(id);
@@ -128,8 +122,6 @@ public class ProductResource {
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createProduct(ProductCreateDTO productInfo) {
-        logger.debug("rest createProduct()");
-
         Response response;
         try {
             response = productClient.createProduct(productInfo);
@@ -157,8 +149,6 @@ public class ProductResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response changePrice(long id, NewPriceDTO newPrice) {
-        logger.debug("rest changePrice({})", id);
-
         Response response;
         try {
             response = productClient.changePrice(id, newPrice);
@@ -186,8 +176,6 @@ public class ProductResource {
     @Path("/{id}/categories")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addCategory(long id, long categoryId) {
-        logger.debug("rest addCategory({})", id);
-
         Response response;
         try {
             response = productClient.addCategory(id, categoryId);
@@ -214,8 +202,6 @@ public class ProductResource {
     @GET
     @Path("/{id}/currentPrice")
     public Response getProductPriceByProductId(long id) {
-        logger.debug("rest getProductPriceByProductId({})", id);
-
         Response response;
         try {
             response = productClient.getProductPriceByProductId(id);
@@ -243,8 +229,6 @@ public class ProductResource {
     @GET
     @Path("getCurrencyRate/{currency1}/{currency2}")
     public Response getCurrencyRate(Currency currency1, Currency currency2) {
-        logger.debug("rest getCurrencyRate({}, {})", currency1, currency2);
-
         Response response;
         try {
             response = productClient.getCurrencyRate(currency1, currency2);

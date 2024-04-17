@@ -39,8 +39,6 @@ public class UserResource {
      */
     @GET
     public Response getUsers() {
-        logger.debug("rest getUsers()");
-
         Response response;
         try {
             response = userClient.getUsers();
@@ -65,8 +63,6 @@ public class UserResource {
     @GET
     @Path("{id}")
     public Response getUser(long id) {
-        logger.debug("rest getUser({})", id);
-
         Response response;
         try {
             response = userClient.getUser(id);

@@ -48,8 +48,6 @@ public class OrderResource {
      */
     @GET
     public Response getOrders(@QueryParam("status") String status, @QueryParam("last_week") @DefaultValue("false") boolean lastWeek) {
-        logger.debug("rest getOrders({},{})", lastWeek, status);
-
         Response response;
         try {
             response = orderClient.getOrders(status, lastWeek);
@@ -74,8 +72,6 @@ public class OrderResource {
     @GET
     @Path("/by_user_id/{userId}")
     public Response getOrdersByUserId(long userId) {
-        logger.debug("rest getOrderByUserId({})", userId);
-
         Response response;
         try {
             response = orderClient.getOrdersByUserId(userId);
@@ -100,8 +96,6 @@ public class OrderResource {
     @GET
     @Path("/{id}")
     public Response getOrder(long id) {
-        logger.debug("rest getOrder({})", id);
-
         Response response;
         try {
             response = orderClient.getOrder(id);
@@ -131,8 +125,6 @@ public class OrderResource {
     @POST
     @Path("/{orderId}")
     public Response shipOrder(long orderId, @QueryParam("action") Action action) {
-        logger.debug("rest shipOrder({})", orderId);
-
         Response response;
         try {
             response = orderClient.shipOrder(orderId, action);

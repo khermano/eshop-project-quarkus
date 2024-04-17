@@ -39,8 +39,6 @@ public class CategoryResource {
      */
     @GET
     public Response getCategories() {
-        logger.debug("rest getCategories()");
-
         Response response;
         try {
             response = categoryClient.getCategories();
@@ -65,8 +63,6 @@ public class CategoryResource {
     @GET
     @Path("{id}")
     public Response getCategory(long id) {
-        logger.debug("rest getCategory({})", id);
-
         Response response;
         try {
             response = categoryClient.getCategory(id);
