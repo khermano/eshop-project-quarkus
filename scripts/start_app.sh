@@ -21,9 +21,9 @@ run_docker () {
 }
 
 app_available () {
-  if curl -I localhost:8500/ui/ | grep -q "200 OK" && curl -I localhost:8085 | grep -q "200 OK" &&
-    curl -I localhost:8082 | grep -q "200 OK" && curl -I localhost:8083 | grep -q "200 OK" &&
-    curl -I localhost:8084?status=ALL | grep -q "200 OK" && curl -I localhost:8080/eshop-rest/ | grep -q "200 OK"; then
+  if curl -I localhost:8500/ui/ | grep -q "200 OK" && curl -I localhost:8085/users/ | grep -q "200 OK" &&
+    curl -I localhost:8082/categories/ | grep -q "200 OK" && curl -I localhost:8083/products/ | grep -q "200 OK" &&
+    curl -I localhost:8084/orders?status=ALL | grep -q "200 OK" && curl -I localhost:8080/eshop-rest/ | grep -q "200 OK"; then
       return 0
   else
       return 1

@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * REST Controller for Categories
  */
-@Path("/categories") //TODO remove this after adding API GATEWAY
+@Path("/categories")
 @Produces(MediaType.APPLICATION_JSON)
 @Transactional
 public class CategoryResource {

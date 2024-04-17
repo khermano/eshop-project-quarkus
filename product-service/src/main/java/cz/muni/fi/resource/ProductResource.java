@@ -35,7 +35,7 @@ import java.util.Set;
 /**
  * REST Controller for Products
  */
-@Path("/products") //TODO remove this after adding API GATEWAY
+@Path("/products")
 @Produces(MediaType.APPLICATION_JSON)
 @Transactional
 public class ProductResource {

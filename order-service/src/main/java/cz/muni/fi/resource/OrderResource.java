@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * REST Controller for Orders
  */
-@Path("/orders") //TODO remove this after adding API GATEWAY
+@Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
 @Transactional
 public class OrderResource {

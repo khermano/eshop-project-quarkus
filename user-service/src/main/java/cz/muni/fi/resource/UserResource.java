@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * REST Controller for Users
  */
-@Path("/users") //TODO remove this after adding API GATEWAY
+@Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 @Transactional
 public class UserResource {
