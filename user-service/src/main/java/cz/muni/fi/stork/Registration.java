@@ -32,7 +32,6 @@ public class Registration {
             client.registerServiceAndAwait(
                     new ServiceOptions().setPort(users).setAddress("localhost").setName("users"));
         }
-
     }
 
     public void shutDown(@Observes ShutdownEvent ev, Vertx vertx) {

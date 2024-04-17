@@ -14,10 +14,8 @@ import jakarta.enterprise.event.Observes;
 
 @ApplicationScoped
 public class Registration {
-
     @ConfigProperty(name = "consul.host") String host;
     @ConfigProperty(name = "consul.port") int port;
-
     @ConfigProperty(name = "categories-port", defaultValue = "8082") int categories;
 
     @Inject
@@ -34,7 +32,6 @@ public class Registration {
             client.registerServiceAndAwait(
                     new ServiceOptions().setPort(categories).setAddress("localhost").setName("categories"));
         }
-
     }
 
     public void shutDown(@Observes ShutdownEvent ev, Vertx vertx) {
