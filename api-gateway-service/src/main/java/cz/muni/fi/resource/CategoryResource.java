@@ -10,6 +10,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.reactive.ClientWebApplicationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * REST Controller for Categories
@@ -20,6 +22,7 @@ import org.jboss.resteasy.reactive.ClientWebApplicationException;
 @Produces(MediaType.APPLICATION_JSON)
 @Transactional
 public class CategoryResource {
+    final static Logger logger = LoggerFactory.getLogger(CategoryResource.class);
     @RestClient
     private CategoryClient categoryClient;
     private final MyMessageParser myMessageParser = new MyMessageParser();
@@ -32,12 +35,14 @@ public class CategoryResource {
      */
     @GET
     public Response getCategories() {
-        Response response;
+        logger.debug("rest getCategories()");
 
+        Response response;
         try {
             response = categoryClient.getCategories();
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
+                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
                 return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
@@ -56,12 +61,14 @@ public class CategoryResource {
     @GET
     @Path("{id}")
     public Response getCategory(long id) {
-        Response response;
+        logger.debug("rest getCategory({})", id);
 
+        Response response;
         try {
             response = categoryClient.getCategory(id);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
+                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
                 return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;

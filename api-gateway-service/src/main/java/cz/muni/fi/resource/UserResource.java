@@ -10,6 +10,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.reactive.ClientWebApplicationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * REST Controller for Users
@@ -20,7 +22,7 @@ import org.jboss.resteasy.reactive.ClientWebApplicationException;
 @Produces(MediaType.APPLICATION_JSON)
 @Transactional
 public class UserResource {
-
+    final static Logger logger = LoggerFactory.getLogger(UserResource.class);
     @RestClient
     private UserClient userClient;
     private final MyMessageParser myMessageParser = new MyMessageParser();
@@ -33,12 +35,14 @@ public class UserResource {
      */
     @GET
     public Response getUsers() {
-        Response response;
+        logger.debug("rest getUsers()");
 
+        Response response;
         try {
             response = userClient.getUsers();
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
+                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
                 return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
@@ -57,12 +61,14 @@ public class UserResource {
     @GET
     @Path("{id}")
     public Response getUser(long id) {
-        Response response;
+        logger.debug("rest getUser({})", id);
 
+        Response response;
         try {
             response = userClient.getUser(id);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
+                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
                 return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;

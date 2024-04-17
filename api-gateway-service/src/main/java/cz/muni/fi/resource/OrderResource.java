@@ -14,6 +14,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.jboss.resteasy.reactive.ClientWebApplicationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * REST Controller for Orders
@@ -24,6 +26,7 @@ import org.jboss.resteasy.reactive.ClientWebApplicationException;
 @Produces(MediaType.APPLICATION_JSON)
 @Transactional
 public class OrderResource {
+    final static Logger logger = LoggerFactory.getLogger(OrderResource.class);
     @RestClient
     private OrderClient orderClient;
     private final MyMessageParser myMessageParser = new MyMessageParser();
@@ -41,12 +44,14 @@ public class OrderResource {
      */
     @GET
     public Response getOrders(@QueryParam("status") String status, @QueryParam("last_week") @DefaultValue("false") boolean lastWeek) {
-        Response response;
+        logger.debug("rest getOrders({},{})", lastWeek, status);
 
+        Response response;
         try {
             response = orderClient.getOrders(status, lastWeek);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
+                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
                 return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
@@ -65,12 +70,14 @@ public class OrderResource {
     @GET
     @Path("/by_user_id/{userId}")
     public Response getOrdersByUserId(long userId) {
-        Response response;
+        logger.debug("rest getOrderByUserId({})", userId);
 
+        Response response;
         try {
             response = orderClient.getOrdersByUserId(userId);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
+                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
                 return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
@@ -89,12 +96,14 @@ public class OrderResource {
     @GET
     @Path("/{id}")
     public Response getOrder(long id) {
-        Response response;
+        logger.debug("rest getOrder({})", id);
 
+        Response response;
         try {
             response = orderClient.getOrder(id);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
+                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
                 return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
@@ -118,12 +127,14 @@ public class OrderResource {
     @POST
     @Path("/{orderId}")
     public Response shipOrder(long orderId, @QueryParam("action") Action action) {
-        Response response;
+        logger.debug("rest shipOrder({})", orderId);
 
+        Response response;
         try {
             response = orderClient.shipOrder(orderId, action);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
+                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
                 return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
