@@ -50,6 +50,7 @@ public class ProductResource {
     @Inject
     private BeanMappingService beanMappingService;
 
+    @Inject
     @RestClient
     private CategoryClient categoryClient;
 

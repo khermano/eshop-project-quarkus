@@ -5,6 +5,7 @@ import cz.muni.fi.dto.NewPriceDTO;
 import cz.muni.fi.dto.ProductCreateDTO;
 import cz.muni.fi.enums.Currency;
 import cz.muni.fi.utils.MyMessageParser;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -30,8 +31,11 @@ import org.slf4j.LoggerFactory;
 @Transactional
 public class ProductResource {
     final static Logger logger = LoggerFactory.getLogger(ProductResource.class);
+
+    @Inject
     @RestClient
     private ProductClient productClient;
+
     private final MyMessageParser myMessageParser = new MyMessageParser();
 
     /**

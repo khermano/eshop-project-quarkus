@@ -39,6 +39,7 @@ public class OrderResource {
     @Inject
     private OrderRepository orderRepository;
 
+    @Inject
     @RestClient
     private UserClient userClient;
 

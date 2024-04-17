@@ -3,6 +3,7 @@ package cz.muni.fi.resource;
 import cz.muni.fi.client.OrderClient;
 import cz.muni.fi.enums.Action;
 import cz.muni.fi.utils.MyMessageParser;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
@@ -27,8 +28,11 @@ import org.slf4j.LoggerFactory;
 @Transactional
 public class OrderResource {
     final static Logger logger = LoggerFactory.getLogger(OrderResource.class);
+
+    @Inject
     @RestClient
     private OrderClient orderClient;
+
     private final MyMessageParser myMessageParser = new MyMessageParser();
 
     /**

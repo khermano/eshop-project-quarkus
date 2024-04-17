@@ -2,6 +2,7 @@ package cz.muni.fi.resource;
 
 import cz.muni.fi.client.CategoryClient;
 import cz.muni.fi.utils.MyMessageParser;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -23,8 +24,11 @@ import org.slf4j.LoggerFactory;
 @Transactional
 public class CategoryResource {
     final static Logger logger = LoggerFactory.getLogger(CategoryResource.class);
+
+    @Inject
     @RestClient
     private CategoryClient categoryClient;
+
     private final MyMessageParser myMessageParser = new MyMessageParser();
 
     /**

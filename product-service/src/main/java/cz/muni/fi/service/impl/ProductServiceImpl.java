@@ -30,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
 	@Inject
 	private PriceRepository priceRepository;
 
+	@Inject
 	@RestClient
 	private CategoryClient categoryClient;
 

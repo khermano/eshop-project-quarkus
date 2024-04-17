@@ -33,9 +33,11 @@ public class OrderServiceImpl implements OrderService {
     @Inject
 	private OrderRepository orderRepository;
 
+	@Inject
 	@RestClient
 	private UserClient userClient;
 
+	@Inject
 	@RestClient
 	private ProductClient productClient;
 
