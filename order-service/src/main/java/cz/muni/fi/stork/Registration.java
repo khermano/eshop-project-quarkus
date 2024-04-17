@@ -14,10 +14,8 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @ApplicationScoped
 public class Registration {
-
     @ConfigProperty(name = "consul.host") String host;
     @ConfigProperty(name = "consul.port") int port;
-
     @ConfigProperty(name = "orders-port", defaultValue = "8084") int orders;
 
     @Inject
@@ -34,7 +32,6 @@ public class Registration {
             client.registerServiceAndAwait(
                     new ServiceOptions().setPort(orders).setAddress("localhost").setName("orders"));
         }
-
     }
 
     public void shutDown(@Observes ShutdownEvent ev, Vertx vertx) {
