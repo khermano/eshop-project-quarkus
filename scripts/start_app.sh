@@ -23,7 +23,7 @@ run_docker () {
 app_available () {
   if curl -I localhost:8500/ui/ | grep -q "200 OK" && curl -I localhost:8085 | grep -q "200 OK" &&
     curl -I localhost:8082 | grep -q "200 OK" && curl -I localhost:8083 | grep -q "200 OK" &&
-    curl -I localhost:8084?status=ALL | grep -q "200 OK" && curl -I localhost:8080/eshop-rest/users | grep -q "200 OK"; then
+    curl -I localhost:8084?status=ALL | grep -q "200 OK" && curl -I localhost:8080/eshop-rest/ | grep -q "200 OK"; then
       return 0
   else
       return 1
@@ -57,7 +57,7 @@ while true; do
   fi
 done
 
-echo "You can now access the application endpoints at http://localhost:8080."
+echo "You can now access the application endpoints at http://localhost:8080/eshop-rest/."
 read -rsn1 -p "For quit press any button and wait until application shutdown is completed."
 echo
 pkill -P $$
