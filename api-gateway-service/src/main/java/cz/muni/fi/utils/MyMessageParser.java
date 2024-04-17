@@ -1,6 +1,6 @@
 package cz.muni.fi.utils;
 
-public class Utils {
+public class MyMessageParser {
 
     public int parseMessage(String message) {
         String[] result = message.split("status code ");

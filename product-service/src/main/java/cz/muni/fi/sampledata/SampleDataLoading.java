@@ -34,7 +34,7 @@ public class SampleDataLoading {
         Price price = new Price();
         price.setCurrency(currency);
         price.setPriceStart(Date.from(priceStart.toInstant()));
-        price.setValue(BigDecimal.valueOf(priceValue));
+        price.setPriceValue(BigDecimal.valueOf(priceValue));
         return price;
     }
     private void createProduct(String name, String description, String imageFile, long priceValue, Currency currency, Color color, Long... categoryIds) throws IOException {

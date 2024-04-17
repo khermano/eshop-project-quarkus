@@ -1,7 +1,7 @@
 package cz.muni.fi.resource;
 
 import cz.muni.fi.client.UserClient;
-import cz.muni.fi.utils.Utils;
+import cz.muni.fi.utils.MyMessageParser;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -23,7 +23,7 @@ public class UserResource {
 
     @RestClient
     private UserClient userClient;
-    private final Utils utils = new Utils();
+    private final MyMessageParser myMessageParser = new MyMessageParser();
 
     /**
      * Returns all users
@@ -39,7 +39,7 @@ public class UserResource {
             response = userClient.getUsers();
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }
@@ -63,7 +63,7 @@ public class UserResource {
             response = userClient.getUser(id);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }

@@ -84,8 +84,8 @@ echo
 read -rsn1 -p "Press any key to continue."
 
 echo
-echo "curl -X PUT -H \"Content-Type: application/json\" --data '{\"value\":\"16.33\",\"currency\":\"CZK\"}' http://localhost:8080/eshop-rest/products/4 | jq"
-curl -X PUT -H "Content-Type: application/json" --data '{"value":"16.33","currency":"CZK"}' "http://localhost:8080/eshop-rest/products/4" | jq
+echo "curl -X PUT -H \"Content-Type: application/json\" --data '{\"priceValue\":\"16.33\",\"currency\":\"CZK\"}' http://localhost:8080/eshop-rest/products/4 | jq"
+curl -X PUT -H "Content-Type: application/json" --data '{"priceValue":"16.33","currency":"CZK"}' "http://localhost:8080/eshop-rest/products/4" | jq
 echo
 read -rsn1 -p "Press any key to continue."
 

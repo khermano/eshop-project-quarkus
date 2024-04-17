@@ -2,7 +2,7 @@ package cz.muni.fi.resource;
 
 import cz.muni.fi.client.OrderClient;
 import cz.muni.fi.enums.Action;
-import cz.muni.fi.utils.Utils;
+import cz.muni.fi.utils.MyMessageParser;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
@@ -26,7 +26,7 @@ import org.jboss.resteasy.reactive.ClientWebApplicationException;
 public class OrderResource {
     @RestClient
     private OrderClient orderClient;
-    private final Utils utils = new Utils();
+    private final MyMessageParser myMessageParser = new MyMessageParser();
 
     /**
      * Returns all orders according to the given parameters
@@ -47,7 +47,7 @@ public class OrderResource {
             response = orderClient.getOrders(status, lastWeek);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }
@@ -71,7 +71,7 @@ public class OrderResource {
             response = orderClient.getOrdersByUserId(userId);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }
@@ -95,7 +95,7 @@ public class OrderResource {
             response = orderClient.getOrder(id);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }
@@ -124,7 +124,7 @@ public class OrderResource {
             response = orderClient.shipOrder(orderId, action);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }

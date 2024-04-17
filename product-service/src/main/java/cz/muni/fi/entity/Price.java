@@ -21,7 +21,7 @@ public class Price {
 	@DecimalMin("0.0")
 	@NotNull
 	@Column(nullable=false)
-	private BigDecimal value;
+	private BigDecimal priceValue;
 	
 	@NotNull
 	private Date priceStart;
@@ -38,12 +38,12 @@ public class Price {
 		this.id = id;
 	}
 
-	public BigDecimal getValue() {
-		return value;
+	public BigDecimal getPriceValue() {
+		return priceValue;
 	}
 
-	public void setValue(BigDecimal value) {
-		this.value = value;
+	public void setPriceValue(BigDecimal priceValue) {
+		this.priceValue = priceValue;
 	}
 
 	public Date getPriceStart() {
@@ -70,7 +70,7 @@ public class Price {
 				+ ((currency == null) ? 0 : currency.hashCode());
 		result = prime * result
 				+ ((priceStart == null) ? 0 : priceStart.hashCode());
-		return prime * result + ((value == null) ? 0 : value.hashCode());
+		return prime * result + ((priceValue == null) ? 0 : priceValue.hashCode());
 	}
 
 	@Override
@@ -96,11 +96,11 @@ public class Price {
 		else if (!priceStart.equals(other.priceStart)) {
 			return false;
 		}
-		if (value == null) {
-            return other.value == null;
+		if (priceValue == null) {
+            return other.priceValue == null;
 		}
 		else {
-			return value.equals(other.value);
+			return priceValue.equals(other.priceValue);
 		}
     }
 }

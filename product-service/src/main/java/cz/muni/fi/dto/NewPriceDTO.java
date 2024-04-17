@@ -4,16 +4,16 @@ import cz.muni.fi.enums.Currency;
 import java.math.BigDecimal;
 
 public class NewPriceDTO {
-    private BigDecimal value;
+    private BigDecimal priceValue;
 
     private Currency currency;
 
-    public BigDecimal getValue() {
-        return value;
+    public BigDecimal getPriceValue() {
+        return priceValue;
     }
 
-    public void setValue(BigDecimal value) {
-        this.value = value;
+    public void setPriceValue(BigDecimal priceValue) {
+        this.priceValue = priceValue;
     }
 
     public Currency getCurrency() {

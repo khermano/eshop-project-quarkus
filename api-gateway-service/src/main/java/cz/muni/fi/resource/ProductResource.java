@@ -4,7 +4,7 @@ import cz.muni.fi.client.ProductClient;
 import cz.muni.fi.dto.NewPriceDTO;
 import cz.muni.fi.dto.ProductCreateDTO;
 import cz.muni.fi.enums.Currency;
-import cz.muni.fi.utils.Utils;
+import cz.muni.fi.utils.MyMessageParser;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -29,7 +29,7 @@ import org.jboss.resteasy.reactive.ClientWebApplicationException;
 public class ProductResource {
     @RestClient
     private ProductClient productClient;
-    private final Utils utils = new Utils();
+    private final MyMessageParser myMessageParser = new MyMessageParser();
 
     /**
      * returns all products
@@ -45,7 +45,7 @@ public class ProductResource {
             response = productClient.getProducts();
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }
@@ -69,7 +69,7 @@ public class ProductResource {
             response = productClient.getProduct(id);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }
@@ -92,7 +92,7 @@ public class ProductResource {
             response = productClient.deleteProduct(id);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }
@@ -121,7 +121,7 @@ public class ProductResource {
             response = productClient.createProduct(productInfo);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }
@@ -132,10 +132,10 @@ public class ProductResource {
     /**
      * update the price for one product
      * it is not allowed to change the price by more than 10%
-     * e.g.: curl -X PUT -i -H "Content-Type: application/json" --data '{"value":"16.33","currency":"CZK"}' http://localhost:8080/eshop-rest/products/4
+     * e.g.: curl -X PUT -i -H "Content-Type: application/json" --data '{"priceValue":"16.33","currency":"CZK"}' http://localhost:8080/eshop-rest/products/4
      *
      * @param id of product to be updated
-     * @param newPrice NewPriceDTO with required fields for creation (value, and currency [available values: CZK, EUR, USD] can't be null)
+     * @param newPrice NewPriceDTO with required fields for creation (priceValue, and currency [available values: CZK, EUR, USD] can't be null)
      * @return the updated product, 500 if there is no product with given id or 406 if value of price is changed more than 10% or something else went wrong
      */
     @PUT
@@ -148,7 +148,7 @@ public class ProductResource {
             response = productClient.changePrice(id, newPrice);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }
@@ -175,7 +175,7 @@ public class ProductResource {
             response = productClient.addCategory(id, categoryId);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }
@@ -201,7 +201,7 @@ public class ProductResource {
             response = productClient.getProductPriceByProductId(id);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }
@@ -228,7 +228,7 @@ public class ProductResource {
             response = productClient.getCurrencyRate(currency1, currency2);
         } catch (ClientWebApplicationException e) {
             if (e.getMessage().contains("status code")) {
-                return Response.status(utils.parseMessage(e.getMessage())).build();
+                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
             } else {
                 throw e;
             }

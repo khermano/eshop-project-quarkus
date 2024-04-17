@@ -38,7 +38,7 @@ public class ProductRepositoryTest {
 		priceLow = new Price();
 		priceLow.setPriceStart(new Date());
 		priceLow.setCurrency(Currency.CZK);
-		priceLow.setValue(BigDecimal.TEN);
+		priceLow.setPriceValue(BigDecimal.TEN);
 
 		priceRepository.persist(priceLow);
 
@@ -100,7 +100,7 @@ public class ProductRepositoryTest {
 		Assertions.assertNotNull(found);
 		Assertions.assertEquals(found.getName(), "p1");
 		Assertions.assertEquals(found.getColor(), Color.RED);
-		Assertions.assertEquals(found.getCurrentPrice().getValue(), new BigDecimal("10.00"));
+		Assertions.assertEquals(found.getCurrentPrice().getPriceValue(), new BigDecimal("10.00"));
 	}
 
 	@Test

@@ -69,7 +69,7 @@ public class ProductResourceTest {
 		productOne.setName("Raspberry PI");
 		Price currentPrice = new Price();
 		currentPrice.setCurrency(Currency.EUR);
-		currentPrice.setValue(new BigDecimal("34"));
+		currentPrice.setPriceValue(new BigDecimal("34"));
 		productOne.setCurrentPrice(currentPrice);
 		productOne.setColor(Color.BLACK);
 		productOne.addCategoryId(1L);
@@ -79,7 +79,7 @@ public class ProductResourceTest {
 		productTwo.setName("Arduino");
 		Price price = new Price();
 		price.setCurrency(Currency.EUR);
-		price.setValue(new BigDecimal("44"));
+		price.setPriceValue(new BigDecimal("44"));
 		productTwo.setCurrentPrice(price);
 		productTwo.setColor(Color.WHITE);
 		productTwo.addCategoryId(1L);

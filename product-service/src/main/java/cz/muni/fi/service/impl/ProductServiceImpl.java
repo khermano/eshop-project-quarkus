@@ -88,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
 		BigDecimal convertRate = getCurrencyRate(
 				p.getCurrentPrice().getCurrency(), currency);
 
-        return p.getCurrentPrice().getValue().multiply(convertRate)
+        return p.getCurrentPrice().getPriceValue().multiply(convertRate)
 				.setScale(2, RoundingMode.HALF_UP);
 	}
 
@@ -97,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
 		BigDecimal oldPriceInNewCurrency = getPriceValueInCurrency(p, newPrice.getCurrency());
 
 		BigDecimal difference = oldPriceInNewCurrency
-				.subtract(newPrice.getValue());
+				.subtract(newPrice.getPriceValue());
 		BigDecimal percents = difference.abs().divide(
 				oldPriceInNewCurrency, 5, RoundingMode.HALF_UP);
 		if (percents.compareTo(BigDecimal.valueOf(0.1)) > 0) {

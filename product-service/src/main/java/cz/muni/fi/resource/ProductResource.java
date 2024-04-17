@@ -133,7 +133,7 @@ public class ProductResource {
         try {
             Product product = beanMappingService.mapTo(productInfo, Product.class);
             Price price = new Price();
-            price.setValue(productInfo.getPrice());
+            price.setPriceValue(productInfo.getPrice());
             price.setCurrency(productInfo.getCurrency());
             Date now = new Date();
             price.setPriceStart(now);
@@ -155,10 +155,10 @@ public class ProductResource {
     /**
      * update the price for one product
      * it is not allowed to change the price by more than 10%
-     * e.g.: curl -X PUT -i -H "Content-Type: application/json" --data '{"value":"16.33","currency":"CZK"}' http://localhost:8080/eshop-rest/products/4
+     * e.g.: curl -X PUT -i -H "Content-Type: application/json" --data '{"priceValue":"16.33","currency":"CZK"}' http://localhost:8080/eshop-rest/products/4
      *
      * @param id of product to be updated
-     * @param newPrice NewPriceDTO with required fields for creation (value, and currency [available values: CZK, EUR, USD] can't be null)
+     * @param newPrice NewPriceDTO with required fields for creation (priceValue, and currency [available values: CZK, EUR, USD] can't be null)
      * @return the updated product, 500 if there is no product with given id or 406 if value of price is changed more than 10% or something else went wrong
      */
     @PUT
