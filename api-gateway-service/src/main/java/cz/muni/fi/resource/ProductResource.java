@@ -1,6 +1,6 @@
 package cz.muni.fi.resource;
 
-import cz.muni.fi.client.ProductClient;
+import cz.muni.fi.stork.ProductClient;
 import cz.muni.fi.dto.NewPriceDTO;
 import cz.muni.fi.dto.ProductCreateDTO;
 import cz.muni.fi.enums.Currency;

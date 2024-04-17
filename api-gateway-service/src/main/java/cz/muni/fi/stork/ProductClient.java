@@ -1,4 +1,4 @@
-package cz.muni.fi.client;
+package cz.muni.fi.stork;
 
 import cz.muni.fi.dto.NewPriceDTO;
 import cz.muni.fi.dto.ProductCreateDTO;

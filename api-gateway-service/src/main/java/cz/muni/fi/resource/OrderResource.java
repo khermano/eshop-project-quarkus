@@ -1,6 +1,6 @@
 package cz.muni.fi.resource;
 
-import cz.muni.fi.client.OrderClient;
+import cz.muni.fi.stork.OrderClient;
 import cz.muni.fi.enums.Action;
 import cz.muni.fi.utils.MyMessageParser;
 import jakarta.inject.Inject;

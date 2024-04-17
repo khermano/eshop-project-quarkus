@@ -1,4 +1,4 @@
-package cz.muni.fi.client;
+package cz.muni.fi.stork;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -7,14 +7,14 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-@RegisterRestClient(baseUri = "stork://users")
-@Path("/users")
+@RegisterRestClient(baseUri = "stork://categories")
+@Path("/categories")
 @Produces(MediaType.APPLICATION_JSON)
-public interface UserClient {
+public interface CategoryClient {
     @GET
-    Response getUsers();
+    Response getCategories();
 
     @GET
-    @Path("/{id}")
-    Response getUser(long id);
+    @Path("{id}")
+    Response getCategory(long id);
 }
