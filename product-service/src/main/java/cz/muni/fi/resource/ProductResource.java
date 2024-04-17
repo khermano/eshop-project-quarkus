@@ -206,13 +206,9 @@ public class ProductResource {
         try {
             productService.addCategory(id, categoryId);
             Product product = productRepository.findById(id);
-            if (product != null) {
-                ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
-                productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
-                return Response.ok(productDTO).build();
-            } else {
-                return Response.status(406).build();
-            }
+            ProductDTO productDTO = beanMappingService.mapTo(product, ProductDTO.class);
+            productDTO.setCategories(getCategoriesFromIds(product.getCategoriesId()));
+            return Response.ok(productDTO).build();
         } catch (Exception ex) {
             return Response.status(406).build();
         }

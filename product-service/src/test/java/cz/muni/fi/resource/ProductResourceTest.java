@@ -56,7 +56,6 @@ public class ProductResourceTest {
 
 	private static List<ProductDTO> productDTOs;
 
-
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
