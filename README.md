@@ -17,21 +17,21 @@ https://github.com/khermano/433511_Master_thesis_project.
 ## About the app
 
 - every service of this repository has to be up and running for the application to work correctly as well as Consul 
-  which is running in Podman
+  which is running in Docker or Podman
 - you can see if all services are up and running at http://localhost:8500/ui/
 - application endpoints will then be available at http://localhost:8080/eshop-rest
-- the application consists of 1 Podman image and 5 microservices:
+- the application consists of 1 Docker image and 5 microservices:
 
 |        Service        |    Port     |
 |:---------------------:|:-----------:|
-| Consul (Podman image) | 8500 & 8501 |
+| Consul (Docker image) | 8500 & 8501 |
 |     user-service      |    8091     |
 |   category-service    |    8092     |
 |    product-service    |    8093     |
 |     order-service     |    8094     |
 |  api-gateway-service  |    8080     |
 
-## Docker / Podman
+## Docker/Podman
 
 - before you run the script for the first time, it is good to try that Consul image is running
 - `docker run --rm --name consul -p 8500:8500 -p 8501:8501 consul:1.7 agent -dev -ui -client=0.0.0.0 -bind=0.0.0.0 --https-port=8501`
@@ -44,9 +44,13 @@ https://github.com/khermano/433511_Master_thesis_project.
   - after that you should be able to use Docker commands in Podman 
 
 ## **Start application**
-- try your Consul image for the first time to be sure you have it available (see Docker/Podman section)
+
+- you can use one of the two starting scripts available in /scripts directory
+- or you can use docker-compose.yml file
 
 ### Run the script to start the application locally:
+
+- try your Consul image for the first time to be sure you have it available (see Docker/Podman section)
 - `cd eshop-project-quarkus/scripts/`
 - `./start_app.sh` or
 - `./start_app_with_tests.sh`
@@ -55,6 +59,14 @@ https://github.com/khermano/433511_Master_thesis_project.
 
 ### Stop the script:
 - press any button and wait for "Application shutdown completed."
+
+### Start app using docker-compose.yml:
+
+- `cd eshop-project-quarkus/`
+- `docker compose up -d --build`
+    - this command build images and then in background start containers defined in a docker-compose.yml file, detaching it from the current shell
+- `docker compose down`
+    - this command stops and removes containers created by docker-compose.yml
 
 ### Individual services:
 

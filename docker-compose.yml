@@ -1,0 +1,68 @@
+version: '3.8'
+services:
+  consul:
+    container_name: consul-quarkus-container
+    image: docker.io/library/consul:1.7
+    ports:
+      - "8500:8500"
+      - "8501:8501"
+    network_mode: host
+  user-service:
+    container_name: user-service-quarkus-container
+    build:
+      context: user-service
+      dockerfile: src/main/docker/Dockerfile.jvm
+    image: user-service-quarkus-image
+    ports:
+      - "8091:8091"
+    network_mode: host
+    depends_on:
+      - consul
+  category-service:
+    container_name: category-service-quarkus-container
+    build:
+      context: category-service
+      dockerfile: src/main/docker/Dockerfile.jvm
+    image: category-service-quarkus-image
+    ports:
+      - "8092:8092"
+    network_mode: host
+    depends_on:
+      - consul
+  product-service:
+    container_name: product-service-quarkus-container
+    build:
+      context: product-service
+      dockerfile: src/main/docker/Dockerfile.jvm
+    image: product-service-quarkus-image
+    ports:
+      - "8093:8093"
+    network_mode: host
+    depends_on:
+      - consul
+  order-service:
+    container_name: order-service-quarkus-container
+    build:
+      context: order-service
+      dockerfile: src/main/docker/Dockerfile.jvm
+    image: order-service-quarkus-image
+    ports:
+      - "8094:8094"
+    network_mode: host
+    depends_on:
+      - consul
+  api-gateway-service:
+    container_name: api-gateway-service-quarkus-container
+    build:
+      context: api-gateway-service
+      dockerfile: src/main/docker/Dockerfile.jvm
+    image: api-gateway-service-quarkus-image
+    ports:
+      - "8080:8080"
+    network_mode: host
+    depends_on:
+      - consul
+      - user-service
+      - category-service
+      - product-service
+      - order-service
