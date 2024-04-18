@@ -25,10 +25,10 @@ https://github.com/khermano/433511_Master_thesis_project.
 |        Service        |    Port     |
 |:---------------------:|:-----------:|
 | Consul (Podman image) | 8500 & 8501 |
-|     user-service      |    8085     |
-|   category-service    |    8082     |
-|    product-service    |    8083     |
-|     order-service     |    8084     |
+|     user-service      |    8091     |
+|   category-service    |    8092     |
+|    product-service    |    8093     |
+|     order-service     |    8094     |
 |  api-gateway-service  |    8080     |
 
 ## Docker / Podman
@@ -61,22 +61,22 @@ https://github.com/khermano/433511_Master_thesis_project.
 *Run Consul image (Consul server) [port 8500 & 8501]:*
 - `docker run --rm --name consul -p 8500:8500 -p 8501:8501 consul:1.7 agent -dev -ui -client=0.0.0.0 -bind=0.0.0.0 --https-port=8501`
 
-*Build and run user-service [port 8085]:*
+*Build and run user-service [port 8091]:*
 - `cd eshop-project-quarkus/user-service/`
 - `mvn clean install`
 - `java -jar target/quarkus-app/quarkus-run.jar`
 
-*Build and run categoryService [port 8082]:*
+*Build and run categoryService [port 8092]:*
 - `cd eshop-project-quarkus/category-service/`
 - `mvn clean install`
 - `java -jar target/quarkus-app/quarkus-run.jar`
 
-*Build and run productService [port 8083]:*
+*Build and run productService [port 8093]:*
 - `cd eshop-project-quarkus/product-service/`
 - `mvn clean install`
 - `java -jar target/quarkus-app/quarkus-run.jar`
 
-*Build and run orderService [port 8084]:*
+*Build and run orderService [port 8094]:*
 - `cd eshop-project-quarkus/order-service/`
 - `mvn clean install`
 - `java -jar target/quarkus-app/quarkus-run.jar`
@@ -287,8 +287,8 @@ https://github.com/khermano/433511_Master_thesis_project.
 - the status of individual services can be also seen on the Consul server: http://localhost:8500/ui/
 - application uses SmallRye Health to provide information about the health of the services
 - more details about the health of the application can be found on endpoints:
-    - user-service: http://localhost:8085/q/health
-    - category-service: http://localhost:8082/q/health
-    - product-service: http://localhost:8083/q/health
-    - order-service: http://localhost:8084/q/health
+    - user-service: http://localhost:8091/q/health
+    - category-service: http://localhost:8092/q/health
+    - product-service: http://localhost:8093/q/health
+    - order-service: http://localhost:8094/q/health
     - api-gateway-service: http://localhost:8080/eshop-rest/q/health

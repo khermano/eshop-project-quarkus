@@ -16,7 +16,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 public class Registration {
     @ConfigProperty(name = "consul.host") String host;
     @ConfigProperty(name = "consul.port") int port;
-    @ConfigProperty(name = "products-port", defaultValue = "8083") int products;
+    @ConfigProperty(name = "products-port", defaultValue = "8093") int products;
 
     @Inject
     LaunchMode mode;

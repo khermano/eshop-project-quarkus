@@ -21,9 +21,9 @@ run_docker () {
 }
 
 app_available () {
-  if curl -I localhost:8500/ui/ | grep -q "200 OK" && curl localhost:8085/q/health/live | grep -q "UP" &&
-    curl localhost:8082/q/health/live | grep -q "UP" && curl localhost:8083/q/health/live | grep -q "UP" &&
-    curl localhost:8084/q/health/live | grep -q "UP" && curl localhost:8080/eshop-rest/q/health/live | grep -q "UP"; then
+  if curl -I localhost:8500/ui/ | grep -q "200 OK" && curl localhost:8091/q/health/live | grep -q "UP" &&
+    curl localhost:8092/q/health/live | grep -q "UP" && curl localhost:8093/q/health/live | grep -q "UP" &&
+    curl localhost:8094/q/health/live | grep -q "UP" && curl localhost:8080/eshop-rest/q/health/live | grep -q "UP"; then
       return 0
   else
       return 1
@@ -32,10 +32,10 @@ app_available () {
 
 test_port 8500
 test_port 8501
-test_port 8085
-test_port 8082
-test_port 8083
-test_port 8084
+test_port 8091
+test_port 8092
+test_port 8093
+test_port 8094
 test_port 8080
 
 cd ..

@@ -16,7 +16,7 @@ import jakarta.enterprise.event.Observes;
 public class Registration {
     @ConfigProperty(name = "consul.host") String host;
     @ConfigProperty(name = "consul.port") int port;
-    @ConfigProperty(name = "categories-port", defaultValue = "8082") int categories;
+    @ConfigProperty(name = "categories-port", defaultValue = "8092") int categories;
 
     @Inject
     LaunchMode mode;
