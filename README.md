@@ -282,3 +282,13 @@ https://github.com/khermano/433511_Master_thesis_project.
 - allows to visualize and interact with the API's resources without having any of the implementation logic in place
 - more info here: https://swagger.io/tools/swagger-ui/?ref=the-best-recipe
 
+## Health info details
+
+- the status of individual services can be also seen on the Consul server: http://localhost:8500/ui/
+- application uses SmallRye Health to provide information about the health of the services
+- more details about the health of the application can be found on endpoints:
+    - user-service: http://localhost:8085/q/health
+    - category-service: http://localhost:8082/q/health
+    - product-service: http://localhost:8083/q/health
+    - order-service: http://localhost:8084/q/health
+    - api-gateway-service: http://localhost:8080/eshop-rest/q/health

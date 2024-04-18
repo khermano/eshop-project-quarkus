@@ -51,11 +51,6 @@
             <artifactId>dozer-core</artifactId>
             <version>7.0.0</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>commons-beanutils</groupId>-->
-<!--            <artifactId>commons-beanutils</artifactId>-->
-<!--            <version>1.9.4</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
@@ -71,6 +66,10 @@
         <dependency>
             <groupId>io.smallrye.reactive</groupId>
             <artifactId>smallrye-mutiny-vertx-consul-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-health</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
