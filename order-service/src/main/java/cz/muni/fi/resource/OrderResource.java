@@ -145,7 +145,7 @@ public class OrderResource {
      *
      * @param orderId id of the order
      * @param action one of CANCEL, SHIP, FINISH
-     * @return order on which action was performed, 404 if the action parameter is invalid (not 406, Quarkus is behaving
+     * @return order on which action was performed, 404 if the action parameter is invalid (originally 406, but Quarkus is behaving
      *         different from Spring Boot when enum is invalid), 500 if order with given ID doesn't exist or something else went wrong
      */
     @POST
@@ -155,6 +155,7 @@ public class OrderResource {
 
         Order order = orderRepository.findById(orderId);
         if (order == null) {
+            // we needed to return 500 here to reproduce behaviour of the original project
             return Response.status(500).build();
         }
 
@@ -170,6 +171,7 @@ public class OrderResource {
         if (order != null) {
             return Response.ok(orderService.getOrderDTOFromOrder(order)).build();
         } else {
+            // we needed to return 500 here to reproduce behaviour of the original project
             return Response.status(500).build();
         }
     }

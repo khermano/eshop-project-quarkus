@@ -73,7 +73,7 @@ public class ProductResource {
      * @param productInfo ProductCreateDTO with required fields for creation
      *                    (name, price, currency, categoryId can't be null)
      *                    you either fill both image and imageType or none of them (see @AllOrNothing)
-     * @return the created product or 422 when invalid data provided or anything went wrong
+     * @return the created product, 400 if non-existing enum provided or 422 when invalid data provided or anything went wrong
      */
     @POST
     @Path("/create")
@@ -89,7 +89,9 @@ public class ProductResource {
      *
      * @param id of product to be updated
      * @param newPrice NewPriceDTO with required fields for creation (priceValue, and currency [available values: CZK, EUR, USD] can't be null)
-     * @return the updated product, 500 if there is no product with given id or 406 if value of price is changed more than 10% or something else went wrong
+     * @return the updated product, 406 if value of price is changed more than 10% or something else went wrong with changing the price,
+     *                              400 if non-existing enum provided
+     *                              500 if there is no product with given id or something else went wrong
      */
     @PUT
     @Path("/{id}")
