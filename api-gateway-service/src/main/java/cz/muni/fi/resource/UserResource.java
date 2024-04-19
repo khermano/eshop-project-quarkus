@@ -1,7 +1,6 @@
 package cz.muni.fi.resource;
 
 import cz.muni.fi.stork.UserClient;
-import cz.muni.fi.utils.MyMessageParser;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
@@ -10,26 +9,17 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.resteasy.reactive.ClientWebApplicationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * REST Controller for Users
- * In every method I need to try to catch ClientWebApplicationException and check if it is not containing
- * some HTTP status code that we are returning, otherwise the real status code is hidden behind status code 500
  */
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 @Transactional
 public class UserResource {
-    final static Logger logger = LoggerFactory.getLogger(UserResource.class);
-
     @Inject
     @RestClient
     private UserClient userClient;
-
-    private final MyMessageParser myMessageParser = new MyMessageParser();
 
     /**
      * Returns all users
@@ -39,18 +29,7 @@ public class UserResource {
      */
     @GET
     public Response getUsers() {
-        Response response;
-        try {
-            response = userClient.getUsers();
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return userClient.getUsers();
     }
 
     /**
@@ -63,17 +42,6 @@ public class UserResource {
     @GET
     @Path("{id}")
     public Response getUser(long id) {
-        Response response;
-        try {
-            response = userClient.getUser(id);
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return userClient.getUser(id);
     }
 }

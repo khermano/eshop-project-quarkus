@@ -2,7 +2,6 @@ package cz.muni.fi.resource;
 
 import cz.muni.fi.stork.OrderClient;
 import cz.muni.fi.enums.Action;
-import cz.muni.fi.utils.MyMessageParser;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.DefaultValue;
@@ -14,26 +13,17 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.resteasy.reactive.ClientWebApplicationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * REST Controller for Orders
- * In every method I need to try to catch ClientWebApplicationException and check if it is not containing
- * some HTTP status code that we are returning, otherwise the real status code is hidden behind status code 500
  */
 @Path("/orders")
 @Produces(MediaType.APPLICATION_JSON)
 @Transactional
 public class OrderResource {
-    final static Logger logger = LoggerFactory.getLogger(OrderResource.class);
-
     @Inject
     @RestClient
     private OrderClient orderClient;
-
-    private final MyMessageParser myMessageParser = new MyMessageParser();
 
     /**
      * Returns all orders according to the given parameters
@@ -48,18 +38,7 @@ public class OrderResource {
      */
     @GET
     public Response getOrders(@QueryParam("status") String status, @QueryParam("last_week") @DefaultValue("false") boolean lastWeek) {
-        Response response;
-        try {
-            response = orderClient.getOrders(status, lastWeek);
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return orderClient.getOrders(status, lastWeek);
     }
 
     /**
@@ -72,18 +51,7 @@ public class OrderResource {
     @GET
     @Path("/by_user_id/{userId}")
     public Response getOrdersByUserId(long userId) {
-        Response response;
-        try {
-            response = orderClient.getOrdersByUserId(userId);
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return orderClient.getOrdersByUserId(userId);
     }
 
     /**
@@ -96,18 +64,7 @@ public class OrderResource {
     @GET
     @Path("/{id}")
     public Response getOrder(long id) {
-        Response response;
-        try {
-            response = orderClient.getOrder(id);
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return orderClient.getOrder(id);
     }
 
     /**
@@ -125,17 +82,6 @@ public class OrderResource {
     @POST
     @Path("/{orderId}")
     public Response shipOrder(long orderId, @QueryParam("action") Action action) {
-        Response response;
-        try {
-            response = orderClient.shipOrder(orderId, action);
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return orderClient.shipOrder(orderId, action);
     }
 }

@@ -4,7 +4,6 @@ import cz.muni.fi.stork.ProductClient;
 import cz.muni.fi.dto.NewPriceDTO;
 import cz.muni.fi.dto.ProductCreateDTO;
 import cz.muni.fi.enums.Currency;
-import cz.muni.fi.utils.MyMessageParser;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -17,26 +16,17 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.resteasy.reactive.ClientWebApplicationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * REST Controller for Products
- * In every method I need to try to catch ClientWebApplicationException and check if it is not containing
- * some HTTP status code that we are returning, otherwise the real status code is hidden behind status code 500
  */
 @Path("/products")
 @Produces(MediaType.APPLICATION_JSON)
 @Transactional
 public class ProductResource {
-    final static Logger logger = LoggerFactory.getLogger(ProductResource.class);
-
     @Inject
     @RestClient
     private ProductClient productClient;
-
-    private final MyMessageParser myMessageParser = new MyMessageParser();
 
     /**
      * returns all products
@@ -46,18 +36,7 @@ public class ProductResource {
      */
     @GET
     public Response getProducts() {
-        Response response;
-        try {
-            response = productClient.getProducts();
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return productClient.getProducts();
     }
 
     /**
@@ -70,18 +49,7 @@ public class ProductResource {
     @GET
     @Path("/{id}")
     public Response getProduct(long id) {
-        Response response;
-        try {
-            response = productClient.getProduct(id);
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return productClient.getProduct(id);
     }
 
     /**
@@ -93,18 +61,7 @@ public class ProductResource {
     @DELETE
     @Path("/{id}")
     public Response deleteProduct(long id) {
-        Response response;
-        try {
-            response = productClient.deleteProduct(id);
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return productClient.deleteProduct(id);
     }
 
     /**
@@ -122,18 +79,7 @@ public class ProductResource {
     @Path("/create")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createProduct(ProductCreateDTO productInfo) {
-        Response response;
-        try {
-            response = productClient.createProduct(productInfo);
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return productClient.createProduct(productInfo);
     }
 
     /**
@@ -149,18 +95,7 @@ public class ProductResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response changePrice(long id, NewPriceDTO newPrice) {
-        Response response;
-        try {
-            response = productClient.changePrice(id, newPrice);
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return productClient.changePrice(id, newPrice);
     }
 
     /**
@@ -176,18 +111,7 @@ public class ProductResource {
     @Path("/{id}/categories")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addCategory(long id, long categoryId) {
-        Response response;
-        try {
-            response = productClient.addCategory(id, categoryId);
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return productClient.addCategory(id, categoryId);
     }
 
     /**
@@ -202,18 +126,7 @@ public class ProductResource {
     @GET
     @Path("/{id}/currentPrice")
     public Response getProductPriceByProductId(long id) {
-        Response response;
-        try {
-            response = productClient.getProductPriceByProductId(id);
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return productClient.getProductPriceByProductId(id);
     }
 
     /**
@@ -229,17 +142,6 @@ public class ProductResource {
     @GET
     @Path("getCurrencyRate/{currency1}/{currency2}")
     public Response getCurrencyRate(Currency currency1, Currency currency2) {
-        Response response;
-        try {
-            response = productClient.getCurrencyRate(currency1, currency2);
-        } catch (ClientWebApplicationException e) {
-            if (e.getMessage().contains("status code")) {
-                logger.warn("There was ClientWebApplicationException: " + e.getMessage());
-                return Response.status(myMessageParser.parseMessage(e.getMessage())).build();
-            } else {
-                throw e;
-            }
-        }
-        return response;
+        return productClient.getCurrencyRate(currency1, currency2);
     }
 }
