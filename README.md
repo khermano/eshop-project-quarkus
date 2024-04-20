@@ -33,15 +33,17 @@ https://github.com/khermano/433511_Master_thesis_project.
 
 ## Docker/Podman
 
-- before you run the script for the first time, it is good to try that Consul image is running
-- `docker run --rm --name consul -p 8500:8500 -p 8501:8501 consul:1.7 agent -dev -ui -client=0.0.0.0 -bind=0.0.0.0 --https-port=8501`
-  - this command download and run Consul image (choose 'docker.io/library/consul')
-  - to stop it use CTRL+C
+- before you run the script for the first time, to be sure you have the right version of Consul
+- `docker pull consul:1.7`
+  - this command download and Consul image (choose 'docker.io/library/consul')
+- `docker run -d --rm --name consul -p 8500:8500 -p 8501:8501 consul:1.7 agent -dev -ui -client=0.0.0.0 -bind=0.0.0.0 --https-port=8501`
+    - to start the consul image
+- `docker kill consul`
+    - to stop the consul image
 
 #### Podman:
-- if you are having Podman, you can install podman-docker to use docker aliases
-  - `sudo dnf install podman-docker`
-  - after that you should be able to use Docker commands in Podman 
+- if you are having Podman, you can install podman-docker package to use docker aliases
+- after that you should be able to use Docker commands in Podman 
 
 ## **Start application**
 
@@ -71,7 +73,10 @@ https://github.com/khermano/433511_Master_thesis_project.
 ### Individual services:
 
 *Run Consul image (Consul server) [port 8500 & 8501]:*
-- `docker run --rm --name consul -p 8500:8500 -p 8501:8501 consul:1.7 agent -dev -ui -client=0.0.0.0 -bind=0.0.0.0 --https-port=8501`
+- `docker run -d --rm --name consul -p 8500:8500 -p 8501:8501 consul:1.7 agent -dev -ui -client=0.0.0.0 -bind=0.0.0.0 --https-port=8501`
+  - to start the consul image
+- `docker kill consul`
+  - to stop the consul image
 
 *Build and run user-service [port 8091]:*
 - `cd eshop-project-quarkus/user-service/`
@@ -100,7 +105,7 @@ https://github.com/khermano/433511_Master_thesis_project.
 
 ## Development
 
-### Quarkus Dev Tool
+### Quarkus Dev Mode
 
 - Quarkus is providing us with great development mode
 - use `./mvnw compile quarkus:dev` in any project you want to develop

@@ -38,7 +38,7 @@ public class Registration {
         if (mode != LaunchMode.TEST) {
             ConsulClient client = ConsulClient.create(vertx, new ConsulClientOptions().setHost(host).setPort(port));
 
-            client.deregisterServiceAndAwait("users");
+            client.deregisterServiceAndAwait("apiGateway");
         }
     }
 }
