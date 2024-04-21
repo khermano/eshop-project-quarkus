@@ -1,7 +1,7 @@
 package cz.muni.fi.resource;
 
 import cz.muni.fi.dto.CategoryDTO;
-import cz.muni.fi.stork.CategoryClient;
+import cz.muni.fi.client.CategoryClient;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Alternative;

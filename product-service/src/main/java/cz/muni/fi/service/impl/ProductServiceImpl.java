@@ -9,7 +9,7 @@ import cz.muni.fi.repository.PriceRepository;
 import cz.muni.fi.repository.ProductRepository;
 import cz.muni.fi.service.BeanMappingService;
 import cz.muni.fi.service.ProductService;
-import cz.muni.fi.stork.CategoryClient;
+import cz.muni.fi.client.CategoryClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.apache.http.HttpStatus;

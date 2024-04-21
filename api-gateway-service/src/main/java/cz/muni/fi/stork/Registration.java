@@ -17,6 +17,7 @@ public class Registration {
     @ConfigProperty(name = "consul.host") String host;
     @ConfigProperty(name = "consul.port") int port;
     @ConfigProperty(name = "apiGateway-port", defaultValue = "8080") int apiGateway;
+    private final String appName = "apiGateway";
 
     @Inject
     LaunchMode mode;
@@ -30,7 +31,7 @@ public class Registration {
             ConsulClient client = ConsulClient.create(vertx, new ConsulClientOptions().setHost(host).setPort(port));
 
             client.registerServiceAndAwait(
-                    new ServiceOptions().setPort(apiGateway).setAddress("localhost").setName("apiGateway"));
+                    new ServiceOptions().setPort(apiGateway).setAddress("localhost").setName(appName));
         }
     }
 
@@ -38,7 +39,7 @@ public class Registration {
         if (mode != LaunchMode.TEST) {
             ConsulClient client = ConsulClient.create(vertx, new ConsulClientOptions().setHost(host).setPort(port));
 
-            client.deregisterServiceAndAwait("apiGateway");
+            client.deregisterServiceAndAwait(appName);
         }
     }
 }

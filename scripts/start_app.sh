@@ -17,7 +17,6 @@ run_service () {
 
 run_docker () {
   docker run -d --rm --name consul -p 8500:8500 -p 8501:8501 consul:1.7 agent -dev -ui -client=0.0.0.0 -bind=0.0.0.0 --https-port=8501 &
-  pids[$1]=$!
 }
 
 app_available () {
@@ -39,12 +38,12 @@ test_port 8094
 test_port 8080
 
 cd ..
-run_docker 0
-run_service user-service 1
-run_service category-service 2
-run_service product-service 3
-run_service order-service 4
-run_service api-gateway-service 5
+run_docker
+run_service user-service 0
+run_service category-service 1
+run_service product-service 2
+run_service order-service 3
+run_service api-gateway-service 4
 
 while true; do
   if app_available; then
@@ -65,5 +64,6 @@ for pid in ${pids[*]}
 do
   wait $pid
 done
+docker kill consul
 echo
 echo "Application shutdown completed."

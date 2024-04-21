@@ -1,4 +1,4 @@
-package cz.muni.fi.stork;
+package cz.muni.fi.client;
 
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -14,11 +14,11 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
  * select the service instance. The `my-service` part is the service name. This is used to configure Stork discovery
  * and selection in the `application.properties` file.
  */
-@RegisterRestClient(baseUri = "stork://products")
-public interface ProductClient {
+@RegisterRestClient(baseUri = "stork://users")
+public interface UserClient {
 
     @GET
-    @Path("/products/{id}")
+    @Path("/users/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    Response getProduct(long id);
+    Response getUser(long id);
 }

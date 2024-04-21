@@ -17,6 +17,7 @@ public class Registration {
     @ConfigProperty(name = "consul.host") String host;
     @ConfigProperty(name = "consul.port") int port;
     @ConfigProperty(name = "products-port", defaultValue = "8093") int products;
+    private final String appName = "products";
 
     @Inject
     LaunchMode mode;
@@ -30,7 +31,7 @@ public class Registration {
             ConsulClient client = ConsulClient.create(vertx, new ConsulClientOptions().setHost(host).setPort(port));
 
             client.registerServiceAndAwait(
-                    new ServiceOptions().setPort(products).setAddress("localhost").setName("products"));
+                    new ServiceOptions().setPort(products).setAddress("localhost").setName(appName));
         }
     }
 
@@ -38,7 +39,7 @@ public class Registration {
         if (mode != LaunchMode.TEST) {
             ConsulClient client = ConsulClient.create(vertx, new ConsulClientOptions().setHost(host).setPort(port));
 
-            client.deregisterServiceAndAwait("products");
+            client.deregisterServiceAndAwait(appName);
         }
     }
 }

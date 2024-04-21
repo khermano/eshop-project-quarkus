@@ -1,6 +1,6 @@
 package cz.muni.fi.resource;
 
-import cz.muni.fi.stork.OrderClient;
+import cz.muni.fi.client.OrderClient;
 import cz.muni.fi.enums.Action;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;

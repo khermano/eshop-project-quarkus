@@ -1,4 +1,4 @@
-package cz.muni.fi.stork;
+package cz.muni.fi.client;
 
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;

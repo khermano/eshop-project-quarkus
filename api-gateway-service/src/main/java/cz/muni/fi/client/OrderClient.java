@@ -1,4 +1,4 @@
-package cz.muni.fi.stork;
+package cz.muni.fi.client;
 
 import cz.muni.fi.enums.Action;
 import jakarta.ws.rs.DefaultValue;

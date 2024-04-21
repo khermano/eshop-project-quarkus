@@ -12,7 +12,7 @@ import cz.muni.fi.enums.Currency;
 import cz.muni.fi.repository.ProductRepository;
 import cz.muni.fi.service.BeanMappingService;
 import cz.muni.fi.service.ProductService;
-import cz.muni.fi.stork.CategoryClient;
+import cz.muni.fi.client.CategoryClient;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;

@@ -5,7 +5,7 @@ import cz.muni.fi.entity.Order;
 import cz.muni.fi.enums.OrderState;
 import cz.muni.fi.repository.OrderRepository;
 import cz.muni.fi.service.OrderService;
-import cz.muni.fi.stork.UserClient;
+import cz.muni.fi.client.UserClient;
 import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;

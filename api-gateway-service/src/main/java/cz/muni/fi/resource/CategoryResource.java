@@ -1,6 +1,6 @@
 package cz.muni.fi.resource;
 
-import cz.muni.fi.stork.CategoryClient;
+import cz.muni.fi.client.CategoryClient;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
