@@ -22,6 +22,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -66,7 +67,7 @@ public class OrderResource {
             return Response.ok(orderDTOs).build();
         }
 
-        if (!OrderState.contains(status)) {
+        if (Arrays.stream(OrderState.values()).noneMatch(os -> os.name().equals(status))) {
             return Response.status(406).build();
         }
 
