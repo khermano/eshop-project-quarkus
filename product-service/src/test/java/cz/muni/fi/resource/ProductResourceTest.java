@@ -97,12 +97,6 @@ public class ProductResourceTest {
 	}
 
 	@Test
-	public void debugTest() {
-		given()
-				.when().get("/products");
-	}
-
-	@Test
 	public void getAllProducts() {
 		doReturn(panacheQuery).when(productRepository).findAll();
 		doReturn(products).when(panacheQuery).list();
