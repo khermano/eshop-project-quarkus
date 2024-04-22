@@ -8,7 +8,7 @@ import jakarta.enterprise.inject.Alternative;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-@Alternative()
+@Alternative
 @Priority(1)
 @ApplicationScoped
 @RestClient
