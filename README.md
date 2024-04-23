@@ -309,3 +309,14 @@ https://github.com/khermano/433511_Master_thesis_project.
     - product-service: http://localhost:8093/q/health
     - order-service: http://localhost:8094/q/health
     - api-gateway-service: http://localhost:8080/eshop-rest/q/health
+
+## For testing
+- you only need to run:
+    - `cd eshop-project-springboot/scripts/`
+    - `./start_app.sh`
+
+- run Postgres services in Docker/Podman individually:
+    - for user-service [port 5431]: `docker run --rm   --name dev-postgres-user-quarkus  -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=user-quarkus  -p 5431:5432  postgres`
+    - for category-service [port 5432]: `docker run --rm   --name dev-postgres-category-quarkus  -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=category-quarkus  -p 5432:5432  postgres`
+    - for product-service [port 5433]: `docker run --rm   --name dev-postgres-product-quarkus  -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=product-quarkus  -p 5433:5432  postgres`
+    - for order-service [port 5434]: `docker run --rm   --name dev-postgres-order-quarkus  -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=order-quarkus  -p 5434:5432  postgres`
