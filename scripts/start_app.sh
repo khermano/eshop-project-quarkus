@@ -19,10 +19,18 @@ run_docker () {
   docker run -d --rm --name consul -p 8500:8500 -p 8501:8501 consul:1.7 agent -dev -ui -client=0.0.0.0 -bind=0.0.0.0 --https-port=8501 &
 }
 
+endpoint_alive () {
+  LINK=$(curl -s -o /dev/null -w "%{http_code}" localhost:"$1")
+  if echo "$LINK" = "200"; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 app_available () {
-  if curl -I localhost:8500/ui/ | grep -q "200 OK" && curl localhost:8091/q/health/live | grep -q "UP" &&
-    curl localhost:8092/q/health/live | grep -q "UP" && curl localhost:8093/q/health/live | grep -q "UP" &&
-    curl localhost:8094/q/health/live | grep -q "UP" && curl localhost:8080/eshop-rest/q/health/live | grep -q "UP"; then
+  if endpoint_alive 8500/ui/ && endpoint_alive 8091/q/health/live && endpoint_alive 8092/q/health/live &&
+    endpoint_alive 8093/q/health/live && endpoint_alive 8094/q/health/live && endpoint_alive 8080/eshop-rest/q/health/live ; then
       return 0
   else
       return 1
