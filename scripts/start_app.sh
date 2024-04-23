@@ -21,7 +21,7 @@ run_docker () {
 
 endpoint_alive () {
   LINK=$(curl -s -o /dev/null -w "%{http_code}" localhost:"$1")
-  if echo "$LINK" = "200"; then
+  if echo "$LINK" = "200" >/dev/null; then
     return 0
   else
     return 1
@@ -30,7 +30,7 @@ endpoint_alive () {
 
 app_available () {
   if endpoint_alive 8500/ui/ && endpoint_alive 8091/q/health/live && endpoint_alive 8092/q/health/live &&
-    endpoint_alive 8093/q/health/live && endpoint_alive 8094/q/health/live && endpoint_alive 8080/eshop-rest/q/health/live ; then
+    endpoint_alive 8093/q/health/live && endpoint_alive 8094/q/health/live && endpoint_alive 8080/eshop-rest/q/health/live; then
       return 0
   else
       return 1
