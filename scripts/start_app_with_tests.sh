@@ -8,11 +8,19 @@ test_port () {
 }
 
 run_postgres () {
-  docker run --rm --name dev-postgres-"$1" -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB="$1" -p "$2":5432 postgres &
+  docker run --rm --name dev-postgres-"$1" -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB="$1" -p "$2":5432 postgres > logs/"$1".log &
 }
 
 kill_postgres () {
   docker kill dev-postgres-"$1"
+}
+
+postgres_available () {
+  if cat scripts/logs/"$1".log | grep -q "database system is ready to accept connections"; then
+    return 0
+  else
+    return 1
+  fi
 }
 
 run_service () {
@@ -37,9 +45,8 @@ endpoint_alive () {
 }
 
 app_available () {
-  if curl -I localhost:8500/ui/ | grep -q "200 OK" && curl localhost:8091/q/health/live | grep -q "UP" &&
-      curl localhost:8092/q/health/live | grep -q "UP" && curl localhost:8093/q/health/live | grep -q "UP" &&
-      curl localhost:8094/q/health/live | grep -q "UP" && curl localhost:8080/eshop-rest/q/health/live | grep -q "UP"; then
+if endpoint_alive 8500/ui/ && endpoint_alive 8091/q/health/live && endpoint_alive 8092/q/health/live &&
+    endpoint_alive 8093/q/health/live && endpoint_alive 8094/q/health/live && endpoint_alive 8080/eshop-rest/q/health/live ; then
       return 0
   else
       return 1
@@ -65,16 +72,48 @@ run_postgres product-quarkus 5433
 run_postgres order-quarkus 5434
 
 cd ..
-# here add that all below wait until user-quarkus is ready
-sleep 5
-run_service user-service 0
-run_service category-service 1
-run_service product-service 2
-run_service order-service 3
+
+while true; do
+  if postgres_available user-quarkus; then
+    run_service user-service 0
+    break
+  else
+    sleep 1
+  fi
+done
+
+while true; do
+  if postgres_available category-quarkus; then
+    run_service category-service 1
+    break
+  else
+    sleep 1
+  fi
+done
+
+while true; do
+  if postgres_available product-quarkus; then
+    run_service product-service 2
+    break
+  else
+    sleep 1
+  fi
+done
+
+while true; do
+  if postgres_available order-quarkus; then
+    run_service order-service 3
+    break
+  else
+    sleep 1
+  fi
+done
+
 run_service api-gateway-service 4
 
 while true; do
   if app_available; then
+    sleep 1
     echo
     echo "All services available."
     break
