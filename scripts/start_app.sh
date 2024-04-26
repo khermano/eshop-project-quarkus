@@ -136,5 +136,6 @@ kill_postgres category-quarkus
 kill_postgres product-quarkus
 kill_postgres order-quarkus
 docker kill consul
+sleep 1
 echo
 echo "Application shutdown completed."
