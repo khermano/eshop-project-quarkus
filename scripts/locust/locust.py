@@ -28,22 +28,6 @@ class EshopUser(HttpUser):
     def getProduct(self):
         self.client.get("/products/1")
 
-#     @task
-#     def deleteProduct(self):
-#         self.client.delete("/products/11")
-
-#     @task
-#     def createProduct(self):
-#         self.client.post("/products/create")
-
-#     @task
-#     def changePrice(self):
-#         self.client.put("/products/4")
-
-#     @task
-#     def addCategory(self):
-#         self.client.post("/products/2/categories")
-
     @task
     def getProductPriceByProductId(self):
         self.client.get("/products/2/currentPrice")
@@ -67,7 +51,3 @@ class EshopUser(HttpUser):
     @task
     def getOrder(self):
         self.client.get("/orders/1")
-
-#     @task
-#     def shipOrder(self):
-#         self.client.post("/orders/2?action=FINISH")
