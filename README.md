@@ -313,10 +313,17 @@ https://github.com/khermano/433511_Master_thesis_project.
 ## For testing
 - you only need to run:
     - `cd eshop-project-springboot/scripts/`
-    - `./start_app.sh`
+    - `./start_app.sh` or
+  - `./start_app_with_tests.sh`
 
 - run Postgres services in Docker/Podman individually:
     - for user-service [port 5431]: `docker run --rm   --name dev-postgres-user-quarkus  -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=user-quarkus  -p 5431:5432  postgres`
     - for category-service [port 5432]: `docker run --rm   --name dev-postgres-category-quarkus  -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=category-quarkus  -p 5432:5432  postgres`
     - for product-service [port 5433]: `docker run --rm   --name dev-postgres-product-quarkus  -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=product-quarkus  -p 5433:5432  postgres`
     - for order-service [port 5434]: `docker run --rm   --name dev-postgres-order-quarkus  -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=order-quarkus  -p 5434:5432  postgres`
+
+## Locust
+- quick easy instruction can be found here https://www.youtube.com/watch?v=SOu6hgklQRA&ab_channel=NicolaiGram
+- install it: `pip install locust`
+- start it: `locust -f ~/path_to_your_directory/eshop-project-quarkus/scripts/locust/locust.py`
+- use it on http://localhost:8089

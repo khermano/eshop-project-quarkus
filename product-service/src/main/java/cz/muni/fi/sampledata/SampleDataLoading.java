@@ -126,7 +126,7 @@ public class SampleDataLoading {
         Color[] colors = Color.values();
 
         for (int i = 1; i <= 1000; i++) {
-            createProduct("Product" + i, "", "blueberries.jpg", price.nextInt(20000), currencies[i % 3], colors[i % 12], Long.valueOf(i));
+            createProduct("Product" + i, "", "blueberries.jpg", price.nextInt( 1000, 20000), currencies[i % 3], colors[i % 12], Long.valueOf(i));
         }
     }
 }
