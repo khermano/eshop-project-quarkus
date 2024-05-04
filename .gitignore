@@ -6,6 +6,8 @@ user-service/pom.xml.versionsBackup
 user-service/release.properties
 user-service/.flattened-pom.xml
 
+scripts/locust/
+
 # Eclipse
 .project
 .classpath

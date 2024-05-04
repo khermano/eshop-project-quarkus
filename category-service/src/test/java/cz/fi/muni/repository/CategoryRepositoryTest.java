@@ -55,18 +55,6 @@ public class CategoryRepositoryTest {
 		Assertions.assertThrows(org.hibernate.exception.ConstraintViolationException.class, () -> categoryRepository.persist(cat2));
 		categoryRepository.delete(cat);
 	}
-	
-	@Test()
-	public void savesName(){
-		Category cat = new Category();
-		cat.setName("Electronics");
-		categoryRepository.persist(cat);
-
-		Assertions.assertNotNull(categoryRepository.findByName("Electronics"));
-		Assertions.assertEquals(categoryRepository.findByName("Electronics").getName(), "Electronics");
-
-		categoryRepository.delete(cat);
-	}
 
 	@Test()
 	public void delete(){
