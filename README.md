@@ -1,5 +1,8 @@
 # eshop-project-quarkus
 
+- available at: https://github.com/khermano/eshop-project-quarkus/tree/test_app
+- this project is edited for load testing
+
 This repository contains a migration of the backend of the monolithic application to the microservice
 architecture with the Quarkus framework.
 
